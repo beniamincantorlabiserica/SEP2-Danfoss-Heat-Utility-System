@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="da42e14c-22e9-4378-bc36-22afb8d84ff0" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="5-setup-xunit-tests-for-project-2nd-attempt-using-default-test-project-instead-of-avalonia-test-project" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Heat Utility System/HUS/HUS.Tests/UnitTest1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/Heat Utility System/HUS/HUS.Tests/UnitTest1.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2dKr5W64cda1Ucu9rXN29U2ozYO" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "/Users/beniamin/Library/Application Support/JetBrains/Rider2023.2/resharper-host/DecompilerCache",
+      "/Users/beniamin/Library/Application Support/JetBrains/Rider2023.2/resharper-host/SourcesCache",
+      "/Users/beniamin/.local/share/Symbols/src"
+    ]
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="da42e14c-22e9-4378-bc36-22afb8d84ff0" name="Changes" comment="" />
+      <created>1709767428621</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1709767428621</updated>
+      <workItem from="1709767429718" duration="94000" />
+      <workItem from="1709901122408" duration="355000" />
+      <workItem from="1709929656300" duration="776000" />
+      <workItem from="1709930496108" duration="1300000" />
+      <workItem from="1710332611353" duration="626000" />
+      <workItem from="1710333241929" duration="2386000" />
+    </task>
+    <task id="LOCAL-00001" summary="ADDED .gitignore">
+      <option name="closed" value="true" />
+      <created>1710332647316</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1710332647316</updated>
+    </task>
+    <task id="LOCAL-00002" summary="ADDED unit tests project">
+      <option name="closed" value="true" />
+      <created>1710333223337</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1710333223337</updated>
+    </task>
+    <task id="LOCAL-00003" summary="ADDED 1 test for testing the CI Pipeline">
+      <option name="closed" value="true" />
+      <created>1710335787661</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1710335787661</updated>
+    </task>
+    <task id="LOCAL-00004" summary="UPDATED tests for testing v2">
+      <option name="closed" value="true" />
+      <created>1710335872935</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1710335872935</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="ADDED .gitignore" />
+    <MESSAGE value="ADDED unit tests project" />
+    <MESSAGE value="ADDED 1 test for testing the CI Pipeline" />
+    <MESSAGE value="UPDATED tests for testing v2" />
+    <option name="LAST_COMMIT_MESSAGE" value="UPDATED tests for testing v2" />
+  </component>
+</project>
