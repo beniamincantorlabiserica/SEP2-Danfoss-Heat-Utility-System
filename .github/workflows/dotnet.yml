@@ -18,11 +18,17 @@ jobs:
       with:
         dotnet-version: '8.0.x' # specify your .NET version here
     
-    - name: Restore dependencies
-      run: dotnet restore "./Heat Utility System/HUS/HUS.sln"
-    
-    - name: Build
-      run: dotnet build "./Heat Utility System/HUS/HUS.sln" --configuration Release --no-restore
-    
-    - name: Run tests
-      run: dotnet test "./Heat Utility System/HUS/HUS.Tests/HUS.Tests.csproj" --no-build --verbosity normal
+    - name: Restore dependencies (HUS)
+      run: dotnet restore
+      working-directory: HUS
+
+    - name: Build (HUS)
+      run: dotnet build --no-restore
+      working-directory: HUS
+
+    - name: Restore dependencies (HUS.Tests)
+      run: dotnet restore
+      working-directory: HUS.Tests
+    - name: Test (HUS.Tests)
+      run: dotnet test
+      working-directory: HUS.Tests
