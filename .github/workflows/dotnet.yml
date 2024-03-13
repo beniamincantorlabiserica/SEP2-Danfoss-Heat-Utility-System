@@ -19,10 +19,10 @@ jobs:
         dotnet-version: '8.0.x' # specify your .NET version here
     
     - name: Restore dependencies
-      run: dotnet restore ./HUS/HUS.sln
+      run: dotnet restore "./Heat Utility System/HUS.sln"
     
     - name: Build
-      run: dotnet build ./HUS/HUS.sln --configuration Release --no-restore
+      run: dotnet build "./Heat Utility System/HUS.sln" --configuration Release --no-restore
     
     - name: Run tests
-      run: dotnet test ./HUS/HUS.Tests/HUS.Tests.csproj --no-build --verbosity normal
+      run: dotnet test "./Heat Utility System/HUS.Tests/HUS.Tests.csproj" --no-build --verbosity normal
