@@ -5,7 +5,7 @@ public class UnitTest1
     [Fact]
     public void Test1()
     {
-        var name = "a";
-        Assert.Equal("a", name);
+        var name = "b";
+        Assert.Equal("b", name);
     }
 }
