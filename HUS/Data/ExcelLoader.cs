@@ -10,7 +10,7 @@ public class ExcelLoader
 {
     // Adapt to your own file path
     // TODO: Change the file path to the correct one
-    private const string FilePath = "/Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS/Assets/data.xlsx";
+    private const string FilePath = "danfoss_data\\data.xlsx";
     
     /// <summary>
     /// Constructor for the ExcelLoader class
@@ -93,7 +93,7 @@ public class ExcelLoader
     /// Function to write the data to the console
     /// </summary>
     /// <param name="data"> current list to write to console</param>
-    private void WriteDataToConsole(List<DataPerHour> data)
+    public void WriteDataToConsole(List<DataPerHour> data)
     {
         foreach (var d in data)
         {

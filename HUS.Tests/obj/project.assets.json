@@ -1161,6 +1161,25 @@
           }
         }
       },
+      "OfficeOpenXml.Core.ExcelPackage/1.0.0": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.0",
+          "System.IO.Packaging": "4.0.0",
+          "System.Xml.XPath": "4.0.1",
+          "System.Xml.XPath.XDocument": "4.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.6/OfficeOpenXml.Core.ExcelPackage.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/netstandard1.6/OfficeOpenXml.Core.ExcelPackage.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
         "type": "package",
         "runtimeTargets": {
@@ -2605,6 +2624,50 @@
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
       },
+      "System.Xml.XPath/4.0.1": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections": "4.0.11",
+          "System.Diagnostics.Debug": "4.0.11",
+          "System.Globalization": "4.0.11",
+          "System.IO": "4.1.0",
+          "System.Resources.ResourceManager": "4.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Runtime.Extensions": "4.1.0",
+          "System.Threading": "4.0.11",
+          "System.Xml.ReaderWriter": "4.0.11"
+        },
+        "compile": {
+          "ref/netstandard1.3/System.Xml.XPath.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Xml.XPath.dll": {}
+        }
+      },
+      "System.Xml.XPath.XDocument/4.0.1": {
+        "type": "package",
+        "dependencies": {
+          "System.Diagnostics.Debug": "4.0.11",
+          "System.Linq": "4.1.0",
+          "System.Resources.ResourceManager": "4.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Runtime.Extensions": "4.1.0",
+          "System.Threading": "4.0.11",
+          "System.Xml.ReaderWriter": "4.0.11",
+          "System.Xml.XDocument": "4.0.11",
+          "System.Xml.XPath": "4.0.1"
+        },
+        "compile": {
+          "ref/netstandard1.3/System.Xml.XPath.XDocument.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
+        }
+      },
       "Tmds.DBus.Protocol/0.15.0": {
         "type": "package",
         "dependencies": {
@@ -2727,7 +2790,8 @@
           "Avalonia.Diagnostics": "11.0.6",
           "Avalonia.Fonts.Inter": "11.0.6",
           "Avalonia.Themes.Fluent": "11.0.6",
-          "ClosedXML": "0.95.4"
+          "ClosedXML": "0.95.4",
+          "OfficeOpenXml.Core.ExcelPackage": "1.0.0"
         },
         "compile": {
           "bin/placeholder/HUS.dll": {}
@@ -4231,6 +4295,37 @@
         "lib/netstandard2.0/NuGet.Frameworks.xml",
         "nuget.frameworks.5.11.0.nupkg.sha512",
         "nuget.frameworks.nuspec"
+      ]
+    },
+    "OfficeOpenXml.Core.ExcelPackage/1.0.0": {
+      "sha512": "LDhZ7K/zd7Zg3qndOacpdoYvyMbrnOm590g6fhS7NhR3zWkg90sz4NyOo1LGwq/9zianqjwV4gyJjtzLZ5JKww==",
+      "type": "package",
+      "path": "officeopenxml.core.excelpackage/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net46/OfficeOpenXml.Core.ExcelPackage.dll",
+        "lib/net46/OfficeOpenXml.Core.ExcelPackage.pdb",
+        "lib/netstandard1.6/OfficeOpenXml.Core.ExcelPackage.dll",
+        "lib/netstandard1.6/OfficeOpenXml.Core.ExcelPackage.pdb",
+        "officeopenxml.core.excelpackage.1.0.0.nupkg.sha512",
+        "officeopenxml.core.excelpackage.nuspec",
+        "src/OfficeOpenXml.Core.ExcelPackage/ElementFactory.cs",
+        "src/OfficeOpenXml.Core.ExcelPackage/ExcelCell.cs",
+        "src/OfficeOpenXml.Core.ExcelPackage/ExcelColumn.cs",
+        "src/OfficeOpenXml.Core.ExcelPackage/ExcelDefinedNames.cs",
+        "src/OfficeOpenXml.Core.ExcelPackage/ExcelExtensions.cs",
+        "src/OfficeOpenXml.Core.ExcelPackage/ExcelHeaderFooter.cs",
+        "src/OfficeOpenXml.Core.ExcelPackage/ExcelPackage.cs",
+        "src/OfficeOpenXml.Core.ExcelPackage/ExcelRow.cs",
+        "src/OfficeOpenXml.Core.ExcelPackage/ExcelStyles.cs",
+        "src/OfficeOpenXml.Core.ExcelPackage/ExcelWorkbook.cs",
+        "src/OfficeOpenXml.Core.ExcelPackage/ExcelWorksheet.cs",
+        "src/OfficeOpenXml.Core.ExcelPackage/ExcelWorksheetView.cs",
+        "src/OfficeOpenXml.Core.ExcelPackage/ExcelWorksheets.cs",
+        "src/OfficeOpenXml.Core.ExcelPackage/ExtensonMethods.cs",
+        "src/OfficeOpenXml.Core.ExcelPackage/OfficeProperties.cs",
+        "src/OfficeOpenXml.Core.ExcelPackage/Properties/AssemblyInfo.cs"
       ]
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
@@ -7970,6 +8065,84 @@
         "system.xml.xdocument.nuspec"
       ]
     },
+    "System.Xml.XPath/4.0.1": {
+      "sha512": "UWd1H+1IJ9Wlq5nognZ/XJdyj8qPE4XufBUkAW59ijsCPjZkZe0MUzKKJFBr+ZWBe5Wq1u1d5f2CYgE93uH7DA==",
+      "type": "package",
+      "path": "system.xml.xpath/4.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net46/System.Xml.XPath.dll",
+        "lib/netstandard1.3/System.Xml.XPath.dll",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net46/System.Xml.XPath.dll",
+        "ref/netstandard1.3/System.Xml.XPath.dll",
+        "ref/netstandard1.3/System.Xml.XPath.xml",
+        "ref/netstandard1.3/de/System.Xml.XPath.xml",
+        "ref/netstandard1.3/es/System.Xml.XPath.xml",
+        "ref/netstandard1.3/fr/System.Xml.XPath.xml",
+        "ref/netstandard1.3/it/System.Xml.XPath.xml",
+        "ref/netstandard1.3/ja/System.Xml.XPath.xml",
+        "ref/netstandard1.3/ko/System.Xml.XPath.xml",
+        "ref/netstandard1.3/ru/System.Xml.XPath.xml",
+        "ref/netstandard1.3/zh-hans/System.Xml.XPath.xml",
+        "ref/netstandard1.3/zh-hant/System.Xml.XPath.xml",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "system.xml.xpath.4.0.1.nupkg.sha512",
+        "system.xml.xpath.nuspec"
+      ]
+    },
+    "System.Xml.XPath.XDocument/4.0.1": {
+      "sha512": "FLhdYJx4331oGovQypQ8JIw2kEmNzCsjVOVYY/16kZTUoquZG85oVn7yUhBE2OZt1yGPSXAL0HTEfzjlbNpM7Q==",
+      "type": "package",
+      "path": "system.xml.xpath.xdocument/4.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net46/System.Xml.XPath.XDocument.dll",
+        "lib/netstandard1.3/System.Xml.XPath.XDocument.dll",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net46/System.Xml.XPath.XDocument.dll",
+        "ref/netstandard1.3/System.Xml.XPath.XDocument.dll",
+        "ref/netstandard1.3/System.Xml.XPath.XDocument.xml",
+        "ref/netstandard1.3/de/System.Xml.XPath.XDocument.xml",
+        "ref/netstandard1.3/es/System.Xml.XPath.XDocument.xml",
+        "ref/netstandard1.3/fr/System.Xml.XPath.XDocument.xml",
+        "ref/netstandard1.3/it/System.Xml.XPath.XDocument.xml",
+        "ref/netstandard1.3/ja/System.Xml.XPath.XDocument.xml",
+        "ref/netstandard1.3/ko/System.Xml.XPath.XDocument.xml",
+        "ref/netstandard1.3/ru/System.Xml.XPath.XDocument.xml",
+        "ref/netstandard1.3/zh-hans/System.Xml.XPath.XDocument.xml",
+        "ref/netstandard1.3/zh-hant/System.Xml.XPath.XDocument.xml",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "system.xml.xpath.xdocument.4.0.1.nupkg.sha512",
+        "system.xml.xpath.xdocument.nuspec"
+      ]
+    },
     "Tmds.DBus.Protocol/0.15.0": {
       "sha512": "QVo/Y39nTYcCKBqrZuwHjXdwaky0yTQPIT3qUTEEK2MZfDtZWrJ2XyZ59zH8LBgB2fL5cWaTuP2pBTpGz/GeDQ==",
       "type": "package",
@@ -8145,32 +8318,40 @@
     ]
   },
   "packageFolders": {
-    "/Users/beniamin/.nuget/packages/": {}
+    "C:\\Users\\baduc\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS.Tests/HUS.Tests.csproj",
+      "projectUniqueName": "C:\\_sep\\HUS.Tests\\HUS.Tests.csproj",
       "projectName": "HUS.Tests",
-      "projectPath": "/Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS.Tests/HUS.Tests.csproj",
-      "packagesPath": "/Users/beniamin/.nuget/packages/",
-      "outputPath": "/Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS.Tests/obj/",
+      "projectPath": "C:\\_sep\\HUS.Tests\\HUS.Tests.csproj",
+      "packagesPath": "C:\\Users\\baduc\\.nuget\\packages\\",
+      "outputPath": "C:\\_sep\\HUS.Tests\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/beniamin/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\baduc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS/HUS.csproj": {
-              "projectPath": "/Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS/HUS.csproj"
+            "C:\\_sep\\HUS\\HUS.csproj": {
+              "projectPath": "C:\\_sep\\HUS\\HUS.csproj"
             }
           }
         }
@@ -8222,7 +8403,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
