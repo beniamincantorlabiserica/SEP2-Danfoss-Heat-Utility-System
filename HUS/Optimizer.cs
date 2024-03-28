@@ -14,7 +14,7 @@ public class Optimizer
     
     private List<List<HeatingAssetOptimized>> _heatingAssetOptimizedList;
     
-    public List<ReturnOptimizedData> OptimizerOutput;
+    public List<ReturnOptimizedData> OptimizerOutput { get; set; }
     
     private Thread _timeframeThread;
     
