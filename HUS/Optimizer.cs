@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using DefaultNamespace;
+using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 using HUS.Data;
 
 namespace HUS;
@@ -17,6 +19,8 @@ public class Optimizer
     public double CurrentDemand { get; set; }
     public double TotalProductionCost { get; set; }
     public double MaxHeatProduced { get; set; }
+
+    private bool IsDeveloping = true; // turn false when project is finalized
     
     public Optimizer(List<DataPerHour> dataPerHour, List<HeatingAsset> heatingAssets)
     {
@@ -59,53 +63,71 @@ public class Optimizer
     {
         foreach (var data in _dataPerHours)
         {
+            Dev("-------------------------------------------");
             CurrentDemand = data.Demand;
             MaxHeatProduced = 0;
 
-            foreach (var sad in _optimizedHeatingAssets)
+            foreach (var listOfListedAsset in HeatingAssetOptimizedList)
             {
-                if (sad.IsOperating)
-                    MaxHeatProduced += sad.MaxHeat;
-            }
-            
-            Console.WriteLine($"max heat {MaxHeatProduced}");
-            Console.WriteLine($"demand {CurrentDemand}");
-            
-            /*
-            if (_assetIndex >= _optimizedHeatingAssets.Count - 1)
-                continue;
-            */
-            if (CurrentDemand > MaxHeatProduced)
-            {
-                if (_assetIndex > _optimizedHeatingAssets.Count - 1)
-                    continue;
-                AssetManager.StartAsset(_optimizedHeatingAssets[_assetIndex]);
-               _assetIndex++;
-                Console.WriteLine("started another asset");
-            }
-            /*
-             * 0 = asset 1
-             * 1 = asset 2
-             */
-            if(CurrentDemand < MaxHeatProduced && MaxHeatProduced - _optimizedHeatingAssets[_assetIndex-1].MaxHeat >= CurrentDemand)
-            {
-                if (_assetIndex < 0)
-                    continue;
-                Console.WriteLine(_assetIndex-1);
-                AssetManager.StopAsset(_optimizedHeatingAssets[_assetIndex-1]);
-                Console.WriteLine("stopped another asset");
-                _assetIndex--;
+                foreach (var listOfAsset in listOfListedAsset)
+                {
+                    if (listOfAsset.IsOperating)
+                    {
+                        MaxHeatProduced += listOfAsset.TotalMaxHeat;
+                    }
+                }
             }
 
-            foreach (var asset in _optimizedHeatingAssets)
+            Dev("Max heat currently produced: " + MaxHeatProduced);
+            Dev("Current demand: " + CurrentDemand);
+
+            if (CurrentDemand > MaxHeatProduced)
             {
-                if (asset.IsOperating)
-                    TotalProductionCost += asset.ProductionCost;
+                for (int i = 0; i < HeatingAssetOptimizedList.Count; i++)
+                {
+                    if (HeatingAssetOptimizedList[i][0].TotalMaxHeat >= CurrentDemand)
+                    {
+                        HeatingAssetOptimizedList[i][0].StartOptimzedAssets();
+                        _assetIndex = i;
+                        break;
+                    }
+                }
+                
+                
             }
-            Console.WriteLine("an hour passed");
             
-            Thread.Sleep(3); //an hour divided by 10000
+            
+            if (CurrentDemand < MaxHeatProduced  && _assetIndex >= 1 && MaxHeatProduced - HeatingAssetOptimizedList[_assetIndex-1][0].TotalMaxHeat >= CurrentDemand)
+            {
+                HeatingAssetOptimizedList[_assetIndex][0].StopOptimzedAssets();
+                _assetIndex--;
+                HeatingAssetOptimizedList[_assetIndex][0].StartOptimzedAssets();
+            }
+
+        
+            foreach (var listOfListedAsset in HeatingAssetOptimizedList)
+            {
+                foreach (var listOfAsset in listOfListedAsset) 
+                { 
+                    if (listOfAsset.IsOperating) 
+                        TotalProductionCost += listOfAsset.TotalProductionCost;
+                }
+            }
+            
+            
+            
+            Thread.Sleep(30); //an hour divided by 10000
+            
+            
+            Dev("-------------------------------------------");
+            Dev(" ");
+
         }
+        
+        
+            
+        
+        
         Console.WriteLine($"total cost: {TotalProductionCost}");
     }
 
@@ -160,7 +182,11 @@ public class Optimizer
             }
         }
     }
-    
 
+    private void Dev(string str)
+    {
+        if (IsDeveloping)
+            Console.WriteLine($"DEV: {str}");
+    }
 }
 

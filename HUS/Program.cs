@@ -26,7 +26,7 @@ class Program
         
         //loader.WriteDataToConsole(loader.GetData());
         
-        //optimizer.StartThread();
+        optimizer.StartThread();
 
        
         /*
