@@ -20,13 +20,13 @@ class Program
         
         ExcelLoader loader = new();
         AssetManager assets = new AssetManager();
-        Optimizer optimizer = new Optimizer(loader.GetData(), assets.GetAssets());
+        Optimizer optimizer = new Optimizer(loader.GetData(), assets.GetAssets(), 20);
 
         
         
-        //loader.WriteDataToConsole(loader.GetData());
         
-        optimizer.StartThread();
+        
+        
 
        
         /*
@@ -44,5 +44,5 @@ class Program
             .WithInterFont()
             .LogToTrace();
     
-    /*little dev playground*/
+*/
 }

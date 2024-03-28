@@ -24,8 +24,8 @@ public class AssetManager
         /*Hard-coded data for heating assets, Gas boiler, Oil boiler, Gas motor and Electric boiler in order*/
         Assets.Add(new HeatingAsset("GB", 5.0, 0.0,500,215,1.1));
         Assets.Add(new HeatingAsset("OB", 4.0, 0.0,700,265,1.2));
-        //Assets.Add(new HeatingAsset("GM", 3.6m, 2.7m,1100,645,1.9m));
-        //Assets.Add(new HeatingAsset("EK", 8.0m, -8.0m,50,0,0m));
+        Assets.Add(new HeatingAsset("GM", 3.6, 2.7,1100,645,1.9));
+        Assets.Add(new HeatingAsset("EK", 8.0, -8.0,50,0,0));
         
     }
 

@@ -3,71 +3,58 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using DefaultNamespace;
-using DocumentFormat.OpenXml.Drawing;
-using DocumentFormat.OpenXml.Drawing.Diagrams;
-using HUS.Data;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
+
 
 namespace HUS;
 
 public class Optimizer
 {
-    private List<DataPerHour> _dataPerHours;
-    private List<HeatingAsset> _heatingAssets;
-    private List<HeatingAsset> _optimizedHeatingAssets;
-    private List<List<HeatingAssetOptimized>> HeatingAssetOptimizedList = new List<List<HeatingAssetOptimized>>();
-    private int _assetIndex = 0;
+    
+    
+    private List<List<HeatingAssetOptimized>> _heatingAssetOptimizedList;
+    
+    public List<ReturnOptimizedData> OptimizerOutput;
+    
+    private Thread _timeframeThread;
+    
+    private int _assetIndex;
     public double CurrentDemand { get; set; }
     public double TotalProductionCost { get; set; }
     public double MaxHeatProduced { get; set; }
-
-    private bool IsDeveloping = true; // turn false when project is finalized
     
-    public Optimizer(List<DataPerHour> dataPerHour, List<HeatingAsset> heatingAssets)
+    
+    public Optimizer(List<DataPerHour> dataPerHour, List<HeatingAsset> heatingAssets, int sleepTime = 360)
     {
-        _dataPerHours = dataPerHour;
-        _heatingAssets = heatingAssets;
-        OptimzeAssets(_heatingAssets);
+        _heatingAssetOptimizedList = new List<List<HeatingAssetOptimized>>();
+        OptimizerOutput = new List<ReturnOptimizedData>();
+        OptimzeAssets(heatingAssets);
         PrintOptimizedAssets();
+        StartOptimizer(dataPerHour, sleepTime);
         
     }
 
-    public void StartThread()
+    public void StartOptimizer(List<DataPerHour> dataPerHours, int sleepTime)
     {
-        Thread timeframeThread = new Thread(() => Optimize());
- 
-        // start the thread
-        timeframeThread.Start();
- 
-        // do some other work in the main thread
-        
- 
-        // wait for the worker thread to complete
-        timeframeThread.Join();
-    }
-
-    public void StartOptimizer()
-    {
-        //start a thread and work through information
-        //optimize ( data from an hour )
-        
- 
-        
+        _timeframeThread = new Thread(() => Optimize(dataPerHours: dataPerHours, sleepTime: sleepTime));
+        _timeframeThread.Start();
+        _timeframeThread.Join();
     }
 
     public void StopOptimizer()
     {
-        
+        _timeframeThread.Abort(); //unsafe
     }
 
-    public void Optimize()
+    private void Optimize(List<DataPerHour> dataPerHours, int sleepTime)
     {
-        foreach (var data in _dataPerHours)
+        foreach (var data in dataPerHours)
         {
-            Dev("-------------------------------------------");
+            Utils.Dev("-------------------------------------------");
             CurrentDemand = data.Demand;
             MaxHeatProduced = 0;
 
-            foreach (var listOfListedAsset in HeatingAssetOptimizedList)
+            foreach (var listOfListedAsset in _heatingAssetOptimizedList)
             {
                 foreach (var listOfAsset in listOfListedAsset)
                 {
@@ -78,16 +65,16 @@ public class Optimizer
                 }
             }
 
-            Dev("Max heat currently produced: " + MaxHeatProduced);
-            Dev("Current demand: " + CurrentDemand);
+            Utils.Dev("Max heat currently produced: " + MaxHeatProduced);
+            Utils.Dev("Current demand: " + CurrentDemand);
 
             if (CurrentDemand > MaxHeatProduced)
             {
-                for (int i = 0; i < HeatingAssetOptimizedList.Count; i++)
+                for (int i = 0; i < _heatingAssetOptimizedList.Count; i++)
                 {
-                    if (HeatingAssetOptimizedList[i][0].TotalMaxHeat >= CurrentDemand)
+                    if (_heatingAssetOptimizedList[i][0].TotalMaxHeat >= CurrentDemand)
                     {
-                        HeatingAssetOptimizedList[i][0].StartOptimzedAssets();
+                        _heatingAssetOptimizedList[i][0].StartOptimzedAssets();
                         _assetIndex = i;
                         break;
                     }
@@ -97,15 +84,15 @@ public class Optimizer
             }
             
             
-            if (CurrentDemand < MaxHeatProduced  && _assetIndex >= 1 && MaxHeatProduced - HeatingAssetOptimizedList[_assetIndex-1][0].TotalMaxHeat >= CurrentDemand)
+            if (CurrentDemand < MaxHeatProduced  && _assetIndex >= 1 && MaxHeatProduced - _heatingAssetOptimizedList[_assetIndex-1][0].TotalMaxHeat >= CurrentDemand)
             {
-                HeatingAssetOptimizedList[_assetIndex][0].StopOptimzedAssets();
+                _heatingAssetOptimizedList[_assetIndex][0].StopOptimzedAssets();
                 _assetIndex--;
-                HeatingAssetOptimizedList[_assetIndex][0].StartOptimzedAssets();
+                _heatingAssetOptimizedList[_assetIndex][0].StartOptimzedAssets();
             }
 
         
-            foreach (var listOfListedAsset in HeatingAssetOptimizedList)
+            foreach (var listOfListedAsset in _heatingAssetOptimizedList)
             {
                 foreach (var listOfAsset in listOfListedAsset) 
                 { 
@@ -114,24 +101,25 @@ public class Optimizer
                 }
             }
             
+            OptimizerOutput.Add(new ReturnOptimizedData(data,  _heatingAssetOptimizedList[_assetIndex][0].ModelList));
             
             
-            Thread.Sleep(30); //an hour divided by 10000
+            
+            Thread.Sleep(sleepTime); //an hour divided by 10000
             
             
-            Dev("-------------------------------------------");
-            Dev(" ");
+            
+            
+            Utils.Dev("-------------------------------------------");
+            Utils.Dev(" ");
 
         }
-        
-        
-            
-        
-        
-        Console.WriteLine($"total cost: {TotalProductionCost}");
+
+        PrintOutputData();
+        Utils.Dev("Total cost: " + TotalProductionCost);
     }
 
-    public void OptimzeAssets(List<HeatingAsset> unoptimizedAssets)
+    private void OptimzeAssets(List<HeatingAsset> unoptimizedAssets)
     {
         double count = Math.Pow(2, unoptimizedAssets.Count);
         for (int i = 1; i <= count - 1; i++)
@@ -143,12 +131,12 @@ public class Optimizer
                     
             for (int j = 0; j < str.Length; j++)
             {
-                //List<model> temporaryModel = new List<model>();
+                
                 if (str[j] == '1')
                 {
-                    //Console.Write(list[j].Name);
+                    
                     temporaryModel.Add(new HeatingAsset(unoptimizedAssets[j].Name, unoptimizedAssets[j].MaxHeat, unoptimizedAssets[j].MaxElectricity, unoptimizedAssets[j].ProductionCost, unoptimizedAssets[j].Co2Emission, unoptimizedAssets[j].GasConsumption)); //double check for errors
-                    Console.WriteLine($"added {unoptimizedAssets[j].Name}");
+                    
                         
                         
                 }
@@ -156,37 +144,51 @@ public class Optimizer
             }
 
             temporaryModelList.Add(new HeatingAssetOptimized(temporaryModel));
-            HeatingAssetOptimizedList.Add(temporaryModelList);
-            Console.WriteLine($"added that list to model list");
-            Console.WriteLine();
+            _heatingAssetOptimizedList.Add(temporaryModelList);
         }
 
-        HeatingAssetOptimizedList = HeatingAssetOptimizedList.OrderBy(a => a.Max(x => x.Proficiency)).ToList();
+        _heatingAssetOptimizedList = _heatingAssetOptimizedList.OrderBy(a => a.Max(x => x.Proficiency)).ToList();
     }
     
-    /*dev*/
+    /*Utils.Dev*/
     
-    public void PrintOptimizedAssets()
+    private void PrintOptimizedAssets()
     {
+        
+        Utils.Dev("The following groups of heating assets were created: \n");
 
-        foreach (List<HeatingAssetOptimized> data in HeatingAssetOptimizedList)
+        foreach (var listOfOptimizedAssets in _heatingAssetOptimizedList)
         {
-            foreach (var data2 in data)
+            Utils.Dev("----------------------------------");
+            foreach (var optimizedAssetsList in listOfOptimizedAssets)
             {
-                Console.WriteLine($"============================");
-                    
-                Console.WriteLine(data2.Proficiency);
-                data2.GetInfo();
-                    
-                Console.WriteLine("=============================");
+                Utils.Dev("Group Proficiency: " + optimizedAssetsList.Proficiency.ToString());
+
+               foreach(var asset in optimizedAssetsList.ModelList)
+                   Utils.Dev("Asset name: " + asset.Name);
+            }
+            Utils.Dev("----------------------------------");
+            
+        }
+    }
+
+    private void PrintOutputData()
+    {
+        if (Utils.IsUnderDevelopment)
+        {
+            Utils.Dev("output for optimizer is ");
+            foreach (var test in OptimizerOutput)
+            {
+                Console.Write("for date " + test.Hour.HourStart + " to " + test.Hour.HourEnd + " / the demand is " +
+                              test.Hour.Demand + " , and the following assets were running: ");
+                foreach (var asset in test.AssetsUsed)
+                {
+                    Console.Write($" {asset.Name}");
+                }
+
+                Console.WriteLine("\n");
             }
         }
-    }
-
-    private void Dev(string str)
-    {
-        if (IsDeveloping)
-            Console.WriteLine($"DEV: {str}");
     }
 }
 
