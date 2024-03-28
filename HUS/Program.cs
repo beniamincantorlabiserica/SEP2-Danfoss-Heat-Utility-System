@@ -22,12 +22,11 @@ class Program
         AssetManager assets = new AssetManager();
         Optimizer optimizer = new Optimizer(loader.GetData(), assets.GetAssets());
 
-        optimizer.PrintOriginAssets();
-        optimizer.PrintOptimizedAssets();
         
-        loader.WriteDataToConsole(loader.GetData());
         
-        optimizer.StartThread();
+        //loader.WriteDataToConsole(loader.GetData());
+        
+        //optimizer.StartThread();
 
        
         /*

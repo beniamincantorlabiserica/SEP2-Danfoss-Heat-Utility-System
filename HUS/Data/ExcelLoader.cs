@@ -10,7 +10,7 @@ public class ExcelLoader
 {
     // Adapt to your own file path
     // TODO: Change the file path to the correct one
-    private const string FilePath = "danfoss_data\\data.xlsx";
+    private const string FilePath = "danfoss_data\\data2.xlsx";
     
     /// <summary>
     /// Constructor for the ExcelLoader class
@@ -81,7 +81,7 @@ public class ExcelLoader
             }
         }
 
-        var culture = new CultureInfo("de-DE");
+        var culture = new CultureInfo("us");
         double.TryParse(worksheet.Cell(rowNumber, startColumn + 2).GetValue<string>(), NumberStyles.Any, culture, out var demand);
         double.TryParse(worksheet.Cell(rowNumber, startColumn + 3).GetValue<string>(), NumberStyles.Any, culture, out var electricityPrice);
 
