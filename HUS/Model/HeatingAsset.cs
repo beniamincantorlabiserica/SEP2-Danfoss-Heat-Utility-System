@@ -1,5 +1,8 @@
 ﻿namespace DefaultNamespace;
 
+/// <summary>
+/// Heating asset model
+/// </summary>
 public class HeatingAsset
 {
     

@@ -1,7 +1,5 @@
 ﻿using Avalonia;
 using System;
-using System.Collections.Generic;
-using DefaultNamespace;
 using HUS.Data;
 
 namespace HUS;
@@ -22,27 +20,27 @@ class Program
         AssetManager assets = new AssetManager();
         Optimizer optimizer = new Optimizer(loader.GetData(), assets.GetAssets(), 20);
 
-        
-        
-        
-        
-        
 
-       
-        /*
-        BuildAvaloniaApp()
-            .StartWithClassicDesktopLifetime(args);
-        */
-        
+
+
+
+
+
+
+        if (!Utils.IsUnderDevelopment)
+        {
+            BuildAvaloniaApp()
+                .StartWithClassicDesktopLifetime(args);
+        }
+
     }
 
-/*
+
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .WithInterFont()
             .LogToTrace();
-    
-*/
+
 }

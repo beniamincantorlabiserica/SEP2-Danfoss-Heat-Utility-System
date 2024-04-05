@@ -8,22 +8,27 @@ using DocumentFormat.OpenXml.Office2010.ExcelAc;
 
 namespace HUS;
 
+/// <summary>
+/// Optimizer class
+/// </summary>
 public class Optimizer
 {
     
     
-    private List<List<HeatingAssetOptimized>> _heatingAssetOptimizedList;
-    
-    public List<ReturnOptimizedData> OptimizerOutput { get; set; }
-    
+    private List<List<HeatingAssetOptimized>> _heatingAssetOptimizedList;  //to be fixed
     private Thread _timeframeThread;
-    
     private int _assetIndex;
+    public List<ReturnOptimizedData> OptimizerOutput { get; set; }
     public double CurrentDemand { get; set; }
     public double TotalProductionCost { get; set; }
     public double MaxHeatProduced { get; set; }
     
-    
+    /// <summary>
+    /// Class constructor
+    /// </summary>
+    /// <param name="dataPerHour"> List containing all the data in hours. </param>
+    /// <param name="heatingAssets"> List of the available heating assets. </param>
+    /// <param name="sleepTime"> Thread's sleep time in milliseconds, an hour's passing pseudo time. </param>
     public Optimizer(List<DataPerHour> dataPerHour, List<HeatingAsset> heatingAssets, int sleepTime = 360)
     {
         _heatingAssetOptimizedList = new List<List<HeatingAssetOptimized>>();
@@ -33,7 +38,12 @@ public class Optimizer
         StartOptimizer(dataPerHour, sleepTime);
         
     }
-
+    
+    /// <summary>
+    /// Starts the optimizer thread.
+    /// </summary>
+    /// <param name="dataPerHours"> List containing all the data in hours. </param>
+    /// <param name="sleepTime"> Thread's sleep time in milliseconds, an hour's passing pseudo time. </param>
     public void StartOptimizer(List<DataPerHour> dataPerHours, int sleepTime)
     {
         _timeframeThread = new Thread(() => Optimize(dataPerHours: dataPerHours, sleepTime: sleepTime));
@@ -41,11 +51,19 @@ public class Optimizer
         _timeframeThread.Join();
     }
 
+    /// <summary>
+    /// Stops the optimizer thread, unsafe
+    /// </summary>
     public void StopOptimizer()
     {
-        _timeframeThread.Abort(); //unsafe
+        _timeframeThread.Abort();
     }
 
+    /// <summary>
+    /// For each data in hours, in function of demand, starts or stops a set of heating assets.
+    /// </summary>
+    /// <param name="dataPerHours"> List containing all the data in hours. </param>
+    /// <param name="sleepTime"> Thread's sleep time in milliseconds, an hour's passing pseudo time. </param>
     private void Optimize(List<DataPerHour> dataPerHours, int sleepTime)
     {
         foreach (var data in dataPerHours)
@@ -105,7 +123,7 @@ public class Optimizer
             
             
             
-            Thread.Sleep(sleepTime); //an hour divided by 10000
+            Thread.Sleep(sleepTime);
             
             
             
@@ -119,6 +137,10 @@ public class Optimizer
         Utils.Dev("Total cost: " + TotalProductionCost);
     }
 
+    /// <summary>
+    /// Creates all the possible combinations of heating assets and loads them into _heatingAssetsOptimized, then sorts the list ascending by the proficiency level of each combination.
+    /// </summary>
+    /// <param name="unoptimizedAssets"> List of unoptimized assets. </param>
     private void OptimzeAssets(List<HeatingAsset> unoptimizedAssets)
     {
         double count = Math.Pow(2, unoptimizedAssets.Count);
@@ -151,7 +173,10 @@ public class Optimizer
     }
     
     /*Utils.Dev*/
-    
+    private ReturnOptimizedData ReturnOptimizedData(DataPerHour hour, List<HeatingAsset> assets)
+    {
+        return new ReturnOptimizedData(hour, assets);
+    }
     private void PrintOptimizedAssets()
     {
         
