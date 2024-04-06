@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using DefaultNamespace;
-using DocumentFormat.OpenXml.Office2010.ExcelAc;
+
 
 
 namespace HUS;
@@ -13,29 +13,32 @@ namespace HUS;
 /// </summary>
 public class Optimizer
 {
-    
-    
-    private List<List<HeatingAssetOptimized>> _heatingAssetOptimizedList;  //to be fixed
-    private Thread _timeframeThread;
+    private List<HeatingAssetOptimized> _heatingAssetOptimizedList;
+    private Thread? _timeframeThread;
     private int _assetIndex;
-    public List<ReturnOptimizedData> OptimizerOutput { get; set; }
     public double CurrentDemand { get; set; }
     public double TotalProductionCost { get; set; }
     public double MaxHeatProduced { get; set; }
+    public List<ReturnOptimizedData> ProcessedData { get; set; }
+    public bool IsOperating { get; set; } = false;
     
     /// <summary>
     /// Class constructor
+    /// Usage:
+    ///     Without a given list the optimizer will store the processed data within the internal ProcessedData ReturnOptimizedData list
+    ///     WIthout a given sleepTime in milliseconds, the default thread sleep time is set  to 360 milliseconds
     /// </summary>
     /// <param name="dataPerHour"> List containing all the data in hours. </param>
     /// <param name="heatingAssets"> List of the available heating assets. </param>
     /// <param name="sleepTime"> Thread's sleep time in milliseconds, an hour's passing pseudo time. </param>
-    public Optimizer(List<DataPerHour> dataPerHour, List<HeatingAsset> heatingAssets, int sleepTime = 360)
+    /// <param name="optimizerOutput"> List to be populated with the optimizers output instead of the internal "ProcessedData" list, if given a parameter </param>
+    public Optimizer(List<DataPerHour> dataPerHour, List<HeatingAsset> heatingAssets, List<ReturnOptimizedData> optimizerOutput = null!, int sleepTime = 360)
     {
-        _heatingAssetOptimizedList = new List<List<HeatingAssetOptimized>>();
-        OptimizerOutput = new List<ReturnOptimizedData>();
-        OptimzeAssets(heatingAssets);
-        PrintOptimizedAssets();
-        StartOptimizer(dataPerHour, sleepTime);
+        IsOperating = true;
+        _heatingAssetOptimizedList = new List<HeatingAssetOptimized>();
+        ProcessedData = new List<ReturnOptimizedData>();
+        OptimizeAssets(heatingAssets);
+        StartOptimizer(dataPerHour, sleepTime, optimizerOutput);
         
     }
     
@@ -44,43 +47,55 @@ public class Optimizer
     /// </summary>
     /// <param name="dataPerHours"> List containing all the data in hours. </param>
     /// <param name="sleepTime"> Thread's sleep time in milliseconds, an hour's passing pseudo time. </param>
-    public void StartOptimizer(List<DataPerHour> dataPerHours, int sleepTime)
+    /// <param name="optimizerOutput"> List to be populated with the optimizer output </param>
+    private void StartOptimizer(List<DataPerHour> dataPerHours, int sleepTime, List<ReturnOptimizedData> optimizerOutput)
     {
-        _timeframeThread = new Thread(() => Optimize(dataPerHours: dataPerHours, sleepTime: sleepTime));
+        _timeframeThread = new Thread(() => Optimize(dataPerHours: dataPerHours, sleepTime: sleepTime, optimizerOutput: optimizerOutput));
         _timeframeThread.Start();
-        _timeframeThread.Join();
+        //_timeframeThread.Join();
     }
 
+    /*
     /// <summary>
     /// Stops the optimizer thread, unsafe
     /// </summary>
     public void StopOptimizer()
     {
-        _timeframeThread.Abort();
+        try
+        {
+            if(_timeframeThread is not null)
+                _timeframeThread.Abort();  // thread.Abort() is unsafe, according to microsoft 
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
+
+    */
 
     /// <summary>
     /// For each data in hours, in function of demand, starts or stops a set of heating assets.
     /// </summary>
     /// <param name="dataPerHours"> List containing all the data in hours. </param>
     /// <param name="sleepTime"> Thread's sleep time in milliseconds, an hour's passing pseudo time. </param>
-    private void Optimize(List<DataPerHour> dataPerHours, int sleepTime)
+    /// <param name="optimizerOutput"> List to be populated with the optimizer output </param>
+    private void Optimize(List<DataPerHour> dataPerHours, int sleepTime, List<ReturnOptimizedData> optimizerOutput)
     {
+        
         foreach (var data in dataPerHours)
         {
             Utils.Dev("-------------------------------------------");
             CurrentDemand = data.Demand;
             MaxHeatProduced = 0;
 
-            foreach (var listOfListedAsset in _heatingAssetOptimizedList)
+            foreach (var listOfAsset in _heatingAssetOptimizedList)
             {
-                foreach (var listOfAsset in listOfListedAsset)
-                {
                     if (listOfAsset.IsOperating)
                     {
                         MaxHeatProduced += listOfAsset.TotalMaxHeat;
                     }
-                }
             }
 
             Utils.Dev("Max heat currently produced: " + MaxHeatProduced);
@@ -90,124 +105,107 @@ public class Optimizer
             {
                 for (int i = 0; i < _heatingAssetOptimizedList.Count; i++)
                 {
-                    if (_heatingAssetOptimizedList[i][0].TotalMaxHeat >= CurrentDemand)
+                    if (_heatingAssetOptimizedList[i].TotalMaxHeat >= CurrentDemand)
                     {
-                        _heatingAssetOptimizedList[i][0].StartOptimzedAssets();
+                        _heatingAssetOptimizedList[i].StartCombination();
                         _assetIndex = i;
                         break;
                     }
                 }
-                
-                
             }
             
-            
-            if (CurrentDemand < MaxHeatProduced  && _assetIndex >= 1 && MaxHeatProduced - _heatingAssetOptimizedList[_assetIndex-1][0].TotalMaxHeat >= CurrentDemand)
+            if (CurrentDemand < MaxHeatProduced  && _assetIndex >= 1 && MaxHeatProduced - _heatingAssetOptimizedList[_assetIndex-1].TotalMaxHeat >= CurrentDemand)
             {
-                _heatingAssetOptimizedList[_assetIndex][0].StopOptimzedAssets();
+                _heatingAssetOptimizedList[_assetIndex].StopCombination();
                 _assetIndex--;
-                _heatingAssetOptimizedList[_assetIndex][0].StartOptimzedAssets();
+                _heatingAssetOptimizedList[_assetIndex].StartCombination();
             }
-
-        
-            foreach (var listOfListedAsset in _heatingAssetOptimizedList)
+            
+            foreach (var listOfAsset in _heatingAssetOptimizedList)
             {
-                foreach (var listOfAsset in listOfListedAsset) 
-                { 
                     if (listOfAsset.IsOperating) 
                         TotalProductionCost += listOfAsset.TotalProductionCost;
-                }
             }
             
-            OptimizerOutput.Add(new ReturnOptimizedData(data,  _heatingAssetOptimizedList[_assetIndex][0].ModelList));
+            if(optimizerOutput is not null)
+                optimizerOutput.Add(new ReturnOptimizedData(data,  _heatingAssetOptimizedList[_assetIndex].ModelList));
+            else
+                ProcessedData.Add(new ReturnOptimizedData(data,  _heatingAssetOptimizedList[_assetIndex].ModelList));
             
             
             
             Thread.Sleep(sleepTime);
-            
-            
-            
             
             Utils.Dev("-------------------------------------------");
             Utils.Dev(" ");
 
         }
 
-        PrintOutputData();
+        //PrintOutputData(optimizerOutput);
         Utils.Dev("Total cost: " + TotalProductionCost);
+        IsOperating = false;
+        
     }
 
     /// <summary>
     /// Creates all the possible combinations of heating assets and loads them into _heatingAssetsOptimized, then sorts the list ascending by the proficiency level of each combination.
     /// </summary>
     /// <param name="unoptimizedAssets"> List of unoptimized assets. </param>
-    private void OptimzeAssets(List<HeatingAsset> unoptimizedAssets)
+    private void OptimizeAssets(List<HeatingAsset> unoptimizedAssets)
     {
         double count = Math.Pow(2, unoptimizedAssets.Count);
         for (int i = 1; i <= count - 1; i++)
         {
             string str = Convert.ToString(i, 2).PadLeft(unoptimizedAssets.Count, '0');
             List<HeatingAsset> temporaryModel = new List<HeatingAsset>();
-            List<HeatingAssetOptimized> temporaryModelList = new List<HeatingAssetOptimized>();
             
-                    
             for (int j = 0; j < str.Length; j++)
             {
-                
                 if (str[j] == '1')
                 {
-                    
-                    temporaryModel.Add(new HeatingAsset(unoptimizedAssets[j].Name, unoptimizedAssets[j].MaxHeat, unoptimizedAssets[j].MaxElectricity, unoptimizedAssets[j].ProductionCost, unoptimizedAssets[j].Co2Emission, unoptimizedAssets[j].GasConsumption)); //double check for errors
-                    
-                        
-                        
+                    temporaryModel.Add(new HeatingAsset(unoptimizedAssets[j].Name, unoptimizedAssets[j].MaxHeat, unoptimizedAssets[j].MaxElectricity, unoptimizedAssets[j].ProductionCost, unoptimizedAssets[j].Co2Emission, unoptimizedAssets[j].GasConsumption));
                 }
-                        
             }
-
-            temporaryModelList.Add(new HeatingAssetOptimized(temporaryModel));
-            _heatingAssetOptimizedList.Add(temporaryModelList);
+            _heatingAssetOptimizedList.Add(new HeatingAssetOptimized(temporaryModel));
         }
+        _heatingAssetOptimizedList = _heatingAssetOptimizedList.OrderBy(x => x.Efficiency).ToList();
+    }
 
-        _heatingAssetOptimizedList = _heatingAssetOptimizedList.OrderBy(a => a.Max(x => x.Proficiency)).ToList();
-    }
     
-    /*Utils.Dev*/
-    private ReturnOptimizedData ReturnOptimizedData(DataPerHour hour, List<HeatingAsset> assets)
-    {
-        return new ReturnOptimizedData(hour, assets);
-    }
-    private void PrintOptimizedAssets()
+    /*Development purpose*/
+    public void PrintOptimizedAssets()
     {
         
         Utils.Dev("The following groups of heating assets were created: \n");
 
-        foreach (var listOfOptimizedAssets in _heatingAssetOptimizedList)
+        foreach (var optimizedAssetsList in _heatingAssetOptimizedList)
         {
             Utils.Dev("----------------------------------");
-            foreach (var optimizedAssetsList in listOfOptimizedAssets)
-            {
-                Utils.Dev("Group Proficiency: " + optimizedAssetsList.Proficiency.ToString());
+            
+                Utils.Dev("Group Efficiency: " + optimizedAssetsList.Efficiency);
 
                foreach(var asset in optimizedAssetsList.ModelList)
                    Utils.Dev("Asset name: " + asset.Name);
-            }
+               
             Utils.Dev("----------------------------------");
             
         }
     }
 
-    private void PrintOutputData()
+    public void PrintOutputData(List<ReturnOptimizedData> optimizerOutput)
     {
         if (Utils.IsUnderDevelopment)
         {
             Utils.Dev("output for optimizer is ");
-            foreach (var test in OptimizerOutput)
+            foreach (var test in optimizerOutput)
             {
-                Console.Write("for date " + test.Hour.HourStart + " to " + test.Hour.HourEnd + " / the demand is " +
+                Console.Write("for date " + test.Hour.HourStart + " to " + test.Hour.HourEnd + "  the demand is " +
                               test.Hour.Demand + " , and the following assets were running: ");
+
+                
                 foreach (var asset in test.AssetsUsed)
                 {
+                    
                     Console.Write($" {asset.Name}");
                 }
 

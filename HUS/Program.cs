@@ -18,7 +18,25 @@ class Program
         
         ExcelLoader loader = new();
         AssetManager assets = new AssetManager();
-        Optimizer optimizer = new Optimizer(loader.GetData(), assets.GetAssets(), 20);
+        /*
+        List<ReturnOptimizedData> listOfReturnData = new List<ReturnOptimizedData>();
+        Optimizer optimizer = new Optimizer(dataPerHour: loader.GetData(), heatingAssets: assets.GetAssets(), optimizerOutput: listOfReturnData, sleepTime: 20);
+        */
+        Optimizer optimizer = new Optimizer(dataPerHour: loader.GetData(), heatingAssets: assets.GetAssets(), sleepTime: 20);
+        
+        
+
+        while (true)
+        {
+            if (!optimizer.IsOperating)
+            {
+                optimizer.PrintOptimizedAssets();
+                optimizer.PrintOutputData(optimizer.ProcessedData);
+                break;
+            }
+            
+        }
+        
 
 
 

@@ -8,7 +8,7 @@ namespace DefaultNamespace;
 /// Represents an optimized heating asset combination formed from one or more heating assets, alongside the following fields:
 ///     TotalMaxHeat - the total heat produced by all the assets within the combination
 ///     TotalProductionCost - the total production cost of all the assets within the combination per hour
-///     Proficiency - grade the defines the best approach, achieved by dividing the TotalProductionCost with the TotalMaxHeat,
+///     Efficiency - grade the defines the best approach, achieved by dividing the TotalProductionCost with the TotalMaxHeat,
 ///  lower grade results in a better fit for a combination of heating assets, in term of demand, production cost and profit. 
 /// </summary>
 public class HeatingAssetOptimized
@@ -16,13 +16,13 @@ public class HeatingAssetOptimized
     public List<HeatingAsset> ModelList { get; set; }
     public double TotalProductionCost { get; set; }
     public double TotalMaxHeat { get; set; }
-    public double Proficiency { get; set; }
+    public double Efficiency { get; set; }
     
     public bool IsOperating = false;
         
     /// <summary>
     /// Model constructor.
-    /// Computes TotalProductionCost, TotalMaxHeat and Proficiency.
+    /// Computes TotalProductionCost, TotalMaxHeat and Efficiency.
     /// </summary>
     /// <param name="listOfModels"> List of heating assets. </param>
     public HeatingAssetOptimized(List<HeatingAsset> listOfModels)
@@ -35,14 +35,14 @@ public class HeatingAssetOptimized
             TotalMaxHeat += asset.MaxHeat;
         }
 
-        Proficiency = TotalProductionCost / TotalMaxHeat;
+        Efficiency = TotalProductionCost / TotalMaxHeat;
 
     }
     
     /// <summary>
     /// Starts all the heating assets within the heating asset combination model.
     /// </summary>
-    public void StartOptimzedAssets()
+    public void StartCombination()
     {
         foreach (var asset in ModelList)
         {
@@ -57,7 +57,7 @@ public class HeatingAssetOptimized
     /// <summary>
     /// Stops all the heating assets within the heating asset combination model.
     /// </summary>
-    public void StopOptimzedAssets()
+    public void StopCombination()
     {
         foreach (var asset in ModelList)
         {
