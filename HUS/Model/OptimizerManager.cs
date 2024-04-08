@@ -1,21 +1,18 @@
-using System.Collections.Generic;
+using System.Linq;
+using DefaultNamespace;
 using HUS.Data;
 
-namespace DefaultNamespace;
+namespace HUS.Model;
 
 public class OptimizerManager
 {
-    public OptimizerManager()
+    public OptimizerManager(ResultManager resultManager, ExcelLoader excelLoader)
     {
-        
-        ExcelLoader excelLoader = new ExcelLoader();
-        
-        List<DataPerHour> Data = excelLoader.GetData();
-        
-        foreach (var data in Data)
+        var dataPerHours = excelLoader.GetData();
+
+        foreach (var result in from data in dataPerHours let optimizer = new Optimizer(data.HourStart, data.HourEnd, data.Demand, data.ElectricityPrice, data.Period) select new ResultDataPerHour(optimizer.GetProductionUnits(), data.HourStart, data.HourEnd, data.Demand, data.ElectricityPrice, data.Period, optimizer.GetTotalCost()))
         {
-            Optimizer optimizer = new Optimizer(data.HourStart, data.HourEnd, data.Demand, data.ElectricityPrice, data.Period);
+            resultManager.AddResult(result);
         }
-        
     }
 }
