@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using DefaultNamespace;
 using HUS.Data;
 using HUS.Model;
 

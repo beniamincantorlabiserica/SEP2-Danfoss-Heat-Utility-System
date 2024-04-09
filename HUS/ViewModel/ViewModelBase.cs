@@ -1,6 +1,8 @@
+using ReactiveUI;
+
 namespace HUS.ViewModel;
 
-public class ViewModelBase
+public class ViewModelBase: ReactiveObject
 {
     
 }

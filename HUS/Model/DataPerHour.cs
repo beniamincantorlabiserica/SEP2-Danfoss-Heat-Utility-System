@@ -1,4 +1,4 @@
-namespace DefaultNamespace;
+namespace HUS.Model;
 
 public class DataPerHour
 {

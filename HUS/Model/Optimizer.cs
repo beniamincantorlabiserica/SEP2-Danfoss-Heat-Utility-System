@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Google.OrTools.LinearSolver;
 
-namespace DefaultNamespace;
+namespace HUS.Model;
 
 public class Optimizer
 {

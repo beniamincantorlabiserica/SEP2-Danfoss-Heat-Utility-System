@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using ClosedXML.Excel;
-using DefaultNamespace;
+using HUS.Model;
 
 namespace HUS.Data;
 

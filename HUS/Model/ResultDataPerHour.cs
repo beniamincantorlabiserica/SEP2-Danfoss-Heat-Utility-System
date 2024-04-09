@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace DefaultNamespace;
+namespace HUS.Model;
 
 public class ResultDataPerHour
 {
@@ -21,5 +21,10 @@ public class ResultDataPerHour
         ElectricityPrice = electricityPrice;
         Period = period;
         TotalCost = totalCost;
+    }
+    
+    public override string ToString()
+    {
+        return $"HourStart: {HourStart}, HourEnd: {HourEnd}, Demand: {Demand}, ElectricityPrice: {ElectricityPrice}, Period: {Period}, TotalCost: {TotalCost}";
     }
 }

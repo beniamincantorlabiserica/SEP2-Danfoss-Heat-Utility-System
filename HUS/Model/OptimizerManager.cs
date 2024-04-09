@@ -1,5 +1,4 @@
 using System.Linq;
-using DefaultNamespace;
 using HUS.Data;
 
 namespace HUS.Model;

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using DefaultNamespace;
 
 namespace HUS.Model;
 
@@ -20,5 +19,15 @@ public class ResultManager
     public List<ResultDataPerHour> GetResults()
     {
         return Results;
+    }
+    
+    public string GetTotalCost()
+    {
+        double totalCost = 0;
+        foreach (var result in Results)
+        {
+            totalCost += result.TotalCost;
+        }
+        return totalCost.ToString();
     }
 }
