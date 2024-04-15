@@ -2,68 +2,162 @@
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:HUS"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModel="clr-namespace:HUS.ViewModel"
-             d:DesignHeight="700"
-             d:DesignWidth="800"
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch"
              x:DataType="viewModel:DashboardViewModel"
+             Background="#F2F2F2"
              mc:Ignorable="d">
-
 
     <Design.DataContext>
         <viewModel:DashboardViewModel />
     </Design.DataContext>
-    <Panel HorizontalAlignment="Left" VerticalAlignment="Top" Width="700" Height="800">
 
-        <Grid ColumnDefinitions="*, Auto">
-            
-            <StackPanel Grid.Column="0">
-                <TextBlock Text="List of all the data optimized" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-                
 
-                    
-                    
-                <ListBox Grid.Row="1" ItemsSource="{Binding Results}" Height="400" Scroll="">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Margin="0,0,10,0" Text="{Binding }"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                
-            </StackPanel>
-            
-            
-            
-            <StackPanel Grid.Column="1">
-                <TextBlock Text="Output Data" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-                
-                <StackPanel>
-                    <TextBlock Text="{Binding HourStart}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20"/>
-                    <TextBlock Text="{Binding HourEnd}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20"/>
-                    <TextBlock Text="{Binding Demand}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20"/>
-                    <TextBlock Text="{Binding ElectricityPrice}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20"/>
-                    <TextBlock Text="{Binding Period}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20"/>
-                    <TextBlock Text="{Binding CurrentCost}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20"/>
 
+    <!--  Main Grid  -->
+    <Grid Width="1200" RowDefinitions="100, Auto, *">
+        <Grid.Styles>
+            <Style Selector="TextBlock.Title">
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Foreground" Value="#1D1D1B" />
+            </Style>
+
+            <Style Selector="Button.Back">
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Foreground" Value="#1D1D1B" />
+                <Setter Property="BorderThickness" Value="2" />
+                <Setter Property="BorderBrush" Value="#1D1D1B" />
+                <Setter Property="CornerRadius" Value="25" />
+            </Style>
+
+        </Grid.Styles>
+
+
+        <Border Grid.Row="0"
+                Background="White"
+                CornerRadius="3">
+            <Grid HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  ColumnDefinitions="100, 1000, 100">
+                <Image Grid.Column="0" Source="avares://HUS/Assets/Images/sep-logo.png" />
+                <StackPanel Grid.Column="1"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <TextBlock Classes="Title"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Text="Heating Utility System" />
+                    <TextBlock Margin="5"
+                               HorizontalAlignment="Center"
+                               FontStyle="Italic"
+                               Foreground="#1D1D1B"
+                               Text="Scenario X" />
                 </StackPanel>
-                <StackPanel VerticalAlignment="Bottom">
-                    <TextBlock Text="{Binding TotalCost}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20"/>
-                    <TextBlock Text="{Binding TotalIncome}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20"/>
-                    <TextBlock Text="{Binding TotalProfit}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20"/>
-
+                <StackPanel Grid.Column="2"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <Button Classes="Back" Content="BACK" />
                 </StackPanel>
-                
-                
-                
-            </StackPanel>
-            
-            
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1"
+              Width="1200"
+              ColumnDefinitions="Auto, *"
+              Margin="0 20 0 0">
+            <Grid Width="800"
+                  Background="White"
+                  Column="0">
+                <lvc:CartesianChart Series="{Binding Series}" XAxes="{Binding XAxes}"
+                                    YAxes="{Binding YAxes}" />
+            </Grid>
+            <Grid Width="380"
+                  Height="300"
+                  Background="White"
+                  Column="1"
+                  HorizontalAlignment="Right">
+                <lvc:CartesianChart Series="{Binding SeriesProfit}" XAxes="{Binding XAxesProfit}" YAxes="{Binding YAxesProfit}"/>
+            </Grid>
 
         </Grid>
 
 
-    </Panel>
+        <Grid Grid.Row="2" Width="1200" Height="260" VerticalAlignment="Bottom" Margin="0 20 0 0 " ColumnDefinitions="Auto, Auto, Auto">
+            <Grid Column="0" Width="400" Height="260" Background="White">
+                <StackPanel VerticalAlignment="Center">
+                    <Button Classes="Back" Content="Start System" Margin="10" Command="{Binding StartSystem}"/>
+                    <Button Classes="Back" Content="Pause System" Margin="10" Command="{Binding PauseSystem}"/>
+                    <Button Classes="Back" Content="Reset System" Margin="10" Command="{Binding ResetSystem}"/>
+                </StackPanel>
+            </Grid>
+            
+            <Grid Column="1" Margin="20 0 0 0 " Width="380" Height="260" Background="White" RowDefinitions="Auto, Auto" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <StackPanel Grid.Row="0" HorizontalAlignment="Center">
+                    <Grid ColumnDefinitions="Auto, Auto" VerticalAlignment="Bottom"  Height="130">
+                        <Border Background="{Binding ElBoilerStateColor}"
+                                BorderBrush="Black"
+                                BorderThickness="0"
+                                CornerRadius="25"
+                                Padding="10" Margin="10" Grid.Column="0" VerticalAlignment="Bottom">
+                            <TextBlock Width="70" Foreground="#1D1D1B" TextAlignment="Center">El Boiler</TextBlock>
+                        </Border>
+                        
+                        <Border Background="{Binding GasBoilerStateColor}"
+                                BorderBrush="Black"
+                                BorderThickness="0"
+                                CornerRadius="25"
+                                Padding="10" Margin="10" Grid.Column="1" VerticalAlignment="Bottom">
+                            <TextBlock Width="70" Foreground="#1D1D1B" TextAlignment="Center">Gas Boiler</TextBlock>
+                        </Border>
+                    </Grid>
+                </StackPanel>
+                <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                    <Grid ColumnDefinitions="Auto, Auto" VerticalAlignment="Top" Height="130">
+                        <Border Background="{Binding GasMotorStateColor}"
+                                BorderBrush="Black"
+                                BorderThickness="0"
+                                CornerRadius="25"
+                                Padding="10" Margin="10" Grid.Column="0" VerticalAlignment="Top">
+                            <TextBlock Width="70" Foreground="#1D1D1B" TextAlignment="Center"> Gas Motor</TextBlock>
+                        </Border>
+                        
+                        <Border Background="{Binding OilBoilerStateColor}"
+                                BorderBrush="Black"
+                                BorderThickness="0"
+                                CornerRadius="25"
+                                Padding="10" Margin="10" Grid.Column="1" VerticalAlignment="Top">
+                            <TextBlock  Width="70" Foreground="#1D1D1B" TextAlignment="Center">Oil Boiler</TextBlock>
+                        </Border>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+            
+            <Grid Column="2" Margin="20 0 0 0 " Width="380" Height="260" Background="White">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Grid ColumnDefinitions="130, 130, 30" VerticalAlignment="Center" Margin="30, 20">
+                        <TextBlock Grid.Column="0" Text="Production Profit" HorizontalAlignment="Left" Foreground="#1D1D1B"/>
+                        <TextBlock Grid.Column="1" Text="{Binding ProductionProfit}" HorizontalAlignment="Right" Foreground="#1D1D1B" Margin=" 0 0 5 0"/>
+                        <TextBlock Grid.Column="2" Text="DKK" HorizontalAlignment="Right" Foreground="#1D1D1B"/>
+                    </Grid>
+                    <Grid ColumnDefinitions="130, 130, 30" VerticalAlignment="Center" Margin="30, 20">
+                        <TextBlock Grid.Column="0" Text="Production Income" HorizontalAlignment="Left" Foreground="#1D1D1B"/>
+                        <TextBlock Grid.Column="1" Text="{Binding ProductionIncome}" HorizontalAlignment="Right" Foreground="#1D1D1B" Margin=" 0 0 5 0"/>
+                        <TextBlock Grid.Column="2" Text="DKK" HorizontalAlignment="Right" Foreground="#1D1D1B"/>
+                    </Grid>
+                    <Grid ColumnDefinitions="130, 130, 30" VerticalAlignment="Center" Margin="30, 20">
+                        <TextBlock Grid.Column="0" Text="Production Cost" HorizontalAlignment="Left" Foreground="#1D1D1B"/>
+                        <TextBlock Grid.Column="1" Text="{Binding ProductionCost}" HorizontalAlignment="Right" Foreground="#1D1D1B" Margin=" 0 0 5 0"/>
+                        <TextBlock Grid.Column="2" Text="DKK" HorizontalAlignment="Right" Foreground="#1D1D1B"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+    </Grid>
 </UserControl>

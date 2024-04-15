@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModel="clr-namespace:HUS.ViewModel"
         mc:Ignorable="d" x:Class="HUS.MainWindow"
-        Title="YourApp" Height="700" Width="800"
+        Title="YourApp" Height="700" Width="1200"
         x:DataType="viewModel:MainViewModel">
     <Window.DataContext>
         <viewModel:MainViewModel/>
