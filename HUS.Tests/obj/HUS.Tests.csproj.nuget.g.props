@@ -7,7 +7,7 @@
     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">/Users/beniamin/.nuget/packages/</NuGetPackageRoot>
     <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">/Users/beniamin/.nuget/packages/</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
-    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.8.0</NuGetToolVersion>
+    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.6.0</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <SourceRoot Include="/Users/beniamin/.nuget/packages/" />
@@ -15,11 +15,17 @@
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)xunit.runner.visualstudio/2.4.5/build/netcoreapp3.1/xunit.runner.visualstudio.props" Condition="Exists('$(NuGetPackageRoot)xunit.runner.visualstudio/2.4.5/build/netcoreapp3.1/xunit.runner.visualstudio.props')" />
     <Import Project="$(NuGetPackageRoot)xunit.core/2.4.2/build/xunit.core.props" Condition="Exists('$(NuGetPackageRoot)xunit.core/2.4.2/build/xunit.core.props')" />
+    <Import Project="$(NuGetPackageRoot)skiasharp.nativeassets.webassembly/2.88.6/buildTransitive/netstandard1.0/SkiaSharp.NativeAssets.WebAssembly.props" Condition="Exists('$(NuGetPackageRoot)skiasharp.nativeassets.webassembly/2.88.6/buildTransitive/netstandard1.0/SkiaSharp.NativeAssets.WebAssembly.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.testplatform.testhost/17.6.0/build/netcoreapp3.1/Microsoft.TestPlatform.TestHost.props" Condition="Exists('$(NuGetPackageRoot)microsoft.testplatform.testhost/17.6.0/build/netcoreapp3.1/Microsoft.TestPlatform.TestHost.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.codecoverage/17.6.0/build/netstandard2.0/Microsoft.CodeCoverage.props" Condition="Exists('$(NuGetPackageRoot)microsoft.codecoverage/17.6.0/build/netstandard2.0/Microsoft.CodeCoverage.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.net.test.sdk/17.6.0/build/netcoreapp3.1/Microsoft.NET.Test.Sdk.props" Condition="Exists('$(NuGetPackageRoot)microsoft.net.test.sdk/17.6.0/build/netcoreapp3.1/Microsoft.NET.Test.Sdk.props')" />
+    <Import Project="$(NuGetPackageRoot)harfbuzzsharp.nativeassets.webassembly/7.3.0/buildTransitive/netstandard1.0/HarfBuzzSharp.NativeAssets.WebAssembly.props" Condition="Exists('$(NuGetPackageRoot)harfbuzzsharp.nativeassets.webassembly/7.3.0/buildTransitive/netstandard1.0/HarfBuzzSharp.NativeAssets.WebAssembly.props')" />
+    <Import Project="$(NuGetPackageRoot)avalonia/11.0.6/buildTransitive/Avalonia.props" Condition="Exists('$(NuGetPackageRoot)avalonia/11.0.6/buildTransitive/Avalonia.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Pkgxunit_analyzers Condition=" '$(Pkgxunit_analyzers)' == '' ">/Users/beniamin/.nuget/packages/xunit.analyzers/1.0.0</Pkgxunit_analyzers>
+    <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">/Users/beniamin/.nuget/packages/microsoft.codeanalysis.analyzers/3.0.0</PkgMicrosoft_CodeAnalysis_Analyzers>
+    <PkgAvalonia_BuildServices Condition=" '$(PkgAvalonia_BuildServices)' == '' ">/Users/beniamin/.nuget/packages/avalonia.buildservices/0.0.29</PkgAvalonia_BuildServices>
+    <PkgAvalonia Condition=" '$(PkgAvalonia)' == '' ">/Users/beniamin/.nuget/packages/avalonia/11.0.6</PkgAvalonia>
   </PropertyGroup>
 </Project>

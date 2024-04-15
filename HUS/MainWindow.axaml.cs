@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using HUS.Data;
 
 namespace HUS;
 
