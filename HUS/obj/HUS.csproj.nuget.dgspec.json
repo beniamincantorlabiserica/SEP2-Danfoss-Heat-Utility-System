@@ -62,6 +62,10 @@
               "target": "Package",
               "version": "[0.95.4, )"
             },
+            "Google.OrTools": {
+              "target": "Package",
+              "version": "[9.9.3963, )"
+            },
             "OfficeOpenXml.Core.ExcelPackage": {
               "target": "Package",
               "version": "[1.0.0, )"

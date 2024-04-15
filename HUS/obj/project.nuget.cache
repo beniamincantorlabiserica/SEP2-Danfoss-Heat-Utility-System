@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "mAt0IyFYVOnwkEUj36EEyzLD4j/3EU2pgB/USDLecqHmOL9ujNLfwydIhRu6eSgbCqIdKZIvcu8AqXmTIbcN3w==",
+  "dgSpecHash": "NNMBeRJZWXHj8s7mokalmNccKl2+bq8ugQhSwJAcveFZySPDHb7rC3au07jN0JDVRqb6bjbltbrxj4ILCzDPcQ==",
   "success": true,
   "projectFilePath": "/Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS/HUS.csproj",
   "expectedPackageFiles": [
@@ -23,6 +23,13 @@
     "/Users/beniamin/.nuget/packages/closedxml/0.95.4/closedxml.0.95.4.nupkg.sha512",
     "/Users/beniamin/.nuget/packages/documentformat.openxml/2.7.2/documentformat.openxml.2.7.2.nupkg.sha512",
     "/Users/beniamin/.nuget/packages/excelnumberformat/1.0.10/excelnumberformat.1.0.10.nupkg.sha512",
+    "/Users/beniamin/.nuget/packages/google.ortools/9.9.3963/google.ortools.9.9.3963.nupkg.sha512",
+    "/Users/beniamin/.nuget/packages/google.ortools.runtime.linux-arm64/9.9.3963/google.ortools.runtime.linux-arm64.9.9.3963.nupkg.sha512",
+    "/Users/beniamin/.nuget/packages/google.ortools.runtime.linux-x64/9.9.3963/google.ortools.runtime.linux-x64.9.9.3963.nupkg.sha512",
+    "/Users/beniamin/.nuget/packages/google.ortools.runtime.osx-arm64/9.9.3963/google.ortools.runtime.osx-arm64.9.9.3963.nupkg.sha512",
+    "/Users/beniamin/.nuget/packages/google.ortools.runtime.osx-x64/9.9.3963/google.ortools.runtime.osx-x64.9.9.3963.nupkg.sha512",
+    "/Users/beniamin/.nuget/packages/google.ortools.runtime.win-x64/9.9.3963/google.ortools.runtime.win-x64.9.9.3963.nupkg.sha512",
+    "/Users/beniamin/.nuget/packages/google.protobuf/3.25.3/google.protobuf.3.25.3.nupkg.sha512",
     "/Users/beniamin/.nuget/packages/harfbuzzsharp/7.3.0/harfbuzzsharp.7.3.0.nupkg.sha512",
     "/Users/beniamin/.nuget/packages/harfbuzzsharp.nativeassets.linux/7.3.0/harfbuzzsharp.nativeassets.linux.7.3.0.nupkg.sha512",
     "/Users/beniamin/.nuget/packages/harfbuzzsharp.nativeassets.macos/7.3.0/harfbuzzsharp.nativeassets.macos.7.3.0.nupkg.sha512",
