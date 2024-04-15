@@ -1,7 +1,8 @@
 using System;
+using System.Collections.Generic;
 using Google.OrTools.LinearSolver;
 
-namespace DefaultNamespace;
+namespace HUS.Model;
 
 public class Optimizer
 {
@@ -37,14 +38,14 @@ public class Optimizer
         Variable ek = solver.MakeNumVar(0.0, 8.0, "ElectricBoiler");
 
         solver.Add(gb + ob + gm + ek >= Demand);
-        
+
         Objective objective = solver.Objective();
         objective.SetMinimization();
         objective.SetCoefficient(gb, 500);
         objective.SetCoefficient(ob, 700);
         objective.SetCoefficient(gm, 1100);
         objective.SetCoefficient(ek, 50);
-        
+
         Solver.ResultStatus resultStatus = solver.Solve();
 
         if (resultStatus == Solver.ResultStatus.OPTIMAL)
@@ -66,5 +67,22 @@ public class Optimizer
         {
             throw new Exception("The problem does not have an optimal solution.");
         }
-}
+    }
+    
+    public Dictionary<string, double> GetProductionUnits()
+    {
+        Dictionary<string, double> productionUnits = new Dictionary<string, double>
+        {
+            { "GasBoiler", GasBoilerOutput },
+            { "OilBoiler", OilBoilerOutput },
+            { "GasMotor", GasMotorOutput },
+            { "ElectricBoiler", ElectricBoilerOutput }
+        };
+        return productionUnits;
+    }
+    
+    public double GetTotalCost()
+    {
+        return TotalCost;
+    }
 }

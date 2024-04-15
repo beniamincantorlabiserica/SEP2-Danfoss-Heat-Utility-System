@@ -7,13 +7,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da42e14c-22e9-4378-bc36-22afb8d84ff0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/HUS/ViewModel/DashboardViewModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HUS/ViewModel/MainWindowViewModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HUS/ViewModel/ViewModelBase.cs" afterDir="false" />
+    <list default="true" id="da42e14c-22e9-4378-bc36-22afb8d84ff0" name="Changes" comment="ADDED UI binding data and displaying data according to MVVM">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.HUS.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.HUS.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HUS/MainWindow.axaml" beforeDir="false" afterPath="$PROJECT_DIR$/HUS/MainWindow.axaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HUS/obj/HUS.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/HUS/obj/HUS.csproj.nuget.g.targets" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,18 +24,17 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS/App.axaml" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HUS/App.axaml.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HUS/Data/ExcelLoader.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HUS/MainWindow.axaml.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HUS/Model/DataPerHour.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HUS/Program.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS/View/DashboardView.axaml" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS/View/DashboardView.axaml" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS/View/DashboardView.axaml" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS/View/DashboardView.axaml" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS/View/DashboardView.axaml" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS/View/DashboardView.axaml" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS/ViewModel/DashboardViewModel.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HUS/obj/Debug/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a01562cdbc5b45f580085ac70dfeb124ebc00/49/8158c033/IScrollable.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3a6cdc26ff4d30986a9a16b6bbc9bb6a7f2657431c82cde5c66dd377cf51e2b/ListBox.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7ce68360d37e126a0a9e9ae31902461f5c36bf50f8c01e2c62eceb7174f0da/Collection.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -57,28 +51,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;12-create-optimizer-v2&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "13-create-result-manager-result-data-model",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;/Users/beniamin/Library/Application Support/JetBrains/Rider2023.2/resharper-host/DecompilerCache&quot;,
-      &quot;/Users/beniamin/Library/Application Support/JetBrains/Rider2023.2/resharper-host/SourcesCache&quot;,
-      &quot;/Users/beniamin/.local/share/Symbols/src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "/Users/beniamin/Library/Application Support/JetBrains/Rider2023.2/resharper-host/DecompilerCache",
+      "/Users/beniamin/Library/Application Support/JetBrains/Rider2023.2/resharper-host/SourcesCache",
+      "/Users/beniamin/.local/share/Symbols/src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="HUS" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -174,7 +168,23 @@
       <option name="project" value="LOCAL" />
       <updated>1711211714215</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="ADDED result manager">
+      <option name="closed" value="true" />
+      <created>1712616870046</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1712616870046</updated>
+    </task>
+    <task id="LOCAL-00009" summary="ADDED UI binding data and displaying data according to MVVM">
+      <option name="closed" value="true" />
+      <created>1712622348662</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1712622348662</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -201,6 +211,9 @@
     <MESSAGE value="ADDED packages for MVVM architecture" />
     <MESSAGE value="ADDED data per hour model" />
     <MESSAGE value="ADDED excel loader" />
-    <option name="LAST_COMMIT_MESSAGE" value="ADDED excel loader" />
+    <MESSAGE value="ADDED new window view &amp; viewmodel" />
+    <MESSAGE value="ADDED result manager" />
+    <MESSAGE value="ADDED UI binding data and displaying data according to MVVM" />
+    <option name="LAST_COMMIT_MESSAGE" value="ADDED UI binding data and displaying data according to MVVM" />
   </component>
 </project>

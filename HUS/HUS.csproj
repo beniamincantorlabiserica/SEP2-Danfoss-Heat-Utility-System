@@ -10,8 +10,8 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.0.6" />
     <PackageReference Include="Avalonia.Desktop" Version="11.0.6" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.6" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.6" />
     <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.6" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
@@ -22,5 +22,7 @@
     <PackageReference Include="Google.OrTools" Version="9.9.3963" />
 
     <PackageReference Include="OfficeOpenXml.Core.ExcelPackage" Version="1.0.0" />
+
+    <PackageReference Include="ReactiveUI" Version="19.6.1" />
   </ItemGroup>
 </Project>

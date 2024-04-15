@@ -117,10 +117,6 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "Avalonia": {
-              "target": "Package",
-              "version": "[11.0.6, )"
-            },
             "Avalonia.Desktop": {
               "target": "Package",
               "version": "[11.0.6, )"
@@ -140,6 +136,18 @@
             "ClosedXML": {
               "target": "Package",
               "version": "[0.95.4, )"
+            },
+            "Google.OrTools": {
+              "target": "Package",
+              "version": "[9.9.3963, )"
+            },
+            "OfficeOpenXml.Core.ExcelPackage": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "ReactiveUI": {
+              "target": "Package",
+              "version": "[19.6.1, )"
             }
           },
           "imports": [
