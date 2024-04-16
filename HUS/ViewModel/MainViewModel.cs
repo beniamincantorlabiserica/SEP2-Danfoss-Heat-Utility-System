@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using HUS.Model;
 
 namespace HUS.ViewModel;
 
@@ -9,7 +10,7 @@ public class MainViewModel : ViewModelBase, INotifyPropertyChanged
     public MainViewModel()
     {
         // Initialize with DashboardViewModel
-        CurrentViewModel = new DashboardViewModel();
+        CurrentViewModel = new DashboardViewModel(new ResultManager());
     }
 
     private ViewModelBase _currentViewModel;

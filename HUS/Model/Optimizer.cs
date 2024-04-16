@@ -35,16 +35,18 @@ public class Optimizer
         Variable gb = solver.MakeNumVar(0.0, 5.0, "GasBoiler");
         Variable ob = solver.MakeNumVar(0.0, 4.0, "OilBoiler");
         Variable gm = solver.MakeNumVar(0.0, 3.6, "GasMotor");
-        Variable ek = solver.MakeNumVar(0.0, 8.0, "ElectricBoiler");
+        //Variable ek = solver.MakeNumVar(0.0, 8.0, "ElectricBoiler");
 
-        solver.Add(gb + ob + gm + ek >= Demand);
+        // solver.Add(gb + ob + gm + ek >= Demand);
+        solver.Add(gb + ob + gm >= Demand);
+
 
         Objective objective = solver.Objective();
         objective.SetMinimization();
         objective.SetCoefficient(gb, 500);
         objective.SetCoefficient(ob, 700);
         objective.SetCoefficient(gm, 1100);
-        objective.SetCoefficient(ek, 50);
+        //objective.SetCoefficient(ek, 50);
 
         Solver.ResultStatus resultStatus = solver.Solve();
 
@@ -53,7 +55,7 @@ public class Optimizer
             GasBoilerOutput = gb.SolutionValue();
             OilBoilerOutput = ob.SolutionValue();
             GasMotorOutput = gm.SolutionValue();
-            ElectricBoilerOutput = ek.SolutionValue();
+            //ElectricBoilerOutput = ek.SolutionValue();
             TotalCost = solver.Objective().Value();
 
             Console.WriteLine("--------------------------------------");
