@@ -7,6 +7,7 @@
         <entry key="HUS/MainView.axaml" value="HUS/HUS.csproj" />
         <entry key="HUS/MainWindow.axaml" value="HUS/HUS.csproj" />
         <entry key="HUS/View/DashboardView.axaml" value="HUS/HUS.csproj" />
+        <entry key="HUS/View/DashboardViewOld.axaml" value="HUS/HUS.csproj" />
         <entry key="HUS/View/MainView.axaml" value="HUS/HUS.csproj" />
       </map>
     </option>
