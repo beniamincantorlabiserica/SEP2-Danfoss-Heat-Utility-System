@@ -19,17 +19,13 @@
 
     <PackageReference Include="ClosedXML" Version="0.95.4" />
 
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+
     <PackageReference Include="Google.OrTools" Version="9.9.3963" />
-
-    <PackageReference Include="LiveCharts.Core" Version="0.9.8" />
-
-    <PackageReference Include="LiveChartsCore" Version="2.0.0-rc2" />
 
     <PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-rc2" />
 
     <PackageReference Include="OfficeOpenXml.Core.ExcelPackage" Version="1.0.0" />
-
-    <PackageReference Include="ReactiveUI" Version="19.6.1" />
   </ItemGroup>
 
 
@@ -39,7 +35,6 @@
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
-    <None Remove=".gitignore" />
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
