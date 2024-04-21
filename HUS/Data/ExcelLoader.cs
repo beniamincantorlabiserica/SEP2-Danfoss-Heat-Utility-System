@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading;
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using HUS.Model;
 
 namespace HUS.Data;
@@ -10,7 +12,11 @@ public class ExcelLoader
 {
     // Adapt to your own file path
     // TODO: Change the file path to the correct one
-    private const string FilePath = "/Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS/Assets/data.xlsx";
+    private const string FilePath = "C:\\___sep\\HUS\\Assets\\data.xlsx";
+
+    public List<DataPerHour> LiveDataPerHours = new List<DataPerHour>();
+
+    private Thread? _dataThread;
     
     /// <summary>
     /// Constructor for the ExcelLoader class
@@ -20,6 +26,30 @@ public class ExcelLoader
         
     }
 
+    public void StartLiveDataGatherer()
+    {
+        _dataThread = new Thread(() => GetDataLive());
+        _dataThread.Start();
+    }
+    private void GetDataLive()
+    {
+        using var workbook = new XLWorkbook(FilePath);
+        var worksheet = workbook.Worksheet(1); // Assuming data is in the first sheet
+        
+        // Load Winter data from B4 to E171
+        for (var row = 4; row <= 171; row++)
+        {
+            LiveDataPerHours.Add(CreateDataPerHourFromRow(worksheet, row, 2, "Winter"));
+            Thread.Sleep(1000);
+        }
+
+        // Load Summer data from G4 to J171
+        for (var row = 4; row <= 171; row++)
+        {
+            LiveDataPerHours.Add(CreateDataPerHourFromRow(worksheet, row, 7, "Summer"));
+            Thread.Sleep(1000);
+        }
+    }
     
     /// <summary>
     /// Function to get data from the excel file
@@ -81,7 +111,7 @@ public class ExcelLoader
             }
         }
 
-        var culture = new CultureInfo("de-DE");
+        var culture = new CultureInfo("us");
         double.TryParse(worksheet.Cell(rowNumber, startColumn + 2).GetValue<string>(), NumberStyles.Any, culture, out var demand);
         double.TryParse(worksheet.Cell(rowNumber, startColumn + 3).GetValue<string>(), NumberStyles.Any, culture, out var electricityPrice);
 
