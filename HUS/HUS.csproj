@@ -27,6 +27,8 @@
 
     <PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-rc2" />
 
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.4" />
+
     <PackageReference Include="OfficeOpenXml.Core.ExcelPackage" Version="1.0.0" />
 
     <PackageReference Include="ReactiveUI" Version="19.6.1" />

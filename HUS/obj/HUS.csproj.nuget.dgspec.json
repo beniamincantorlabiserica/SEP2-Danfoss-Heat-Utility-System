@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS/HUS.csproj": {}
+    "C:\\Non_Windows\\Docs\\SDU\\semester 2\\Semester project 2\\SEP2-Danfoss-Heat-Utility-System\\HUS\\HUS.csproj": {}
   },
   "projects": {
-    "/Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS/HUS.csproj": {
+    "C:\\Non_Windows\\Docs\\SDU\\semester 2\\Semester project 2\\SEP2-Danfoss-Heat-Utility-System\\HUS\\HUS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS/HUS.csproj",
+        "projectUniqueName": "C:\\Non_Windows\\Docs\\SDU\\semester 2\\Semester project 2\\SEP2-Danfoss-Heat-Utility-System\\HUS\\HUS.csproj",
         "projectName": "HUS",
-        "projectPath": "/Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS/HUS.csproj",
-        "packagesPath": "/Users/beniamin/.nuget/packages/",
-        "outputPath": "/Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS/obj/",
+        "projectPath": "C:\\Non_Windows\\Docs\\SDU\\semester 2\\Semester project 2\\SEP2-Danfoss-Heat-Utility-System\\HUS\\HUS.csproj",
+        "packagesPath": "C:\\Users\\eduar\\.nuget\\packages\\",
+        "outputPath": "C:\\Non_Windows\\Docs\\SDU\\semester 2\\Semester project 2\\SEP2-Danfoss-Heat-Utility-System\\HUS\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Non_Windows\\VisualStudio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/beniamin/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\eduar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -32,6 +39,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -66,6 +78,22 @@
               "target": "Package",
               "version": "[9.9.3963, )"
             },
+            "LiveCharts.Core": {
+              "target": "Package",
+              "version": "[0.9.8, )"
+            },
+            "LiveChartsCore": {
+              "target": "Package",
+              "version": "[2.0.0-rc2, )"
+            },
+            "LiveChartsCore.SkiaSharpView.Avalonia": {
+              "target": "Package",
+              "version": "[2.0.0-rc2, )"
+            },
+            "Microsoft.Data.Sqlite": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
             "OfficeOpenXml.Core.ExcelPackage": {
               "target": "Package",
               "version": "[1.0.0, )"
@@ -91,7 +119,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
