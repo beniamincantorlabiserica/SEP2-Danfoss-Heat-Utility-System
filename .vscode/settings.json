@@ -1,0 +1,12 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "database": "${workspaceFolder:SEP2-Danfoss-Heat-Utility-System}/HUS/HeatUtilityDB/heatutility.db",
+            "name": "heatutility",
+            "group": "heatutility"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}
