@@ -129,6 +129,10 @@
               "target": "Package",
               "version": "[11.0.6, )"
             },
+            "Avalonia.ReactiveUI": {
+              "target": "Package",
+              "version": "[11.0.6, )"
+            },
             "Avalonia.Themes.Fluent": {
               "target": "Package",
               "version": "[11.0.6, )"
@@ -137,17 +141,21 @@
               "target": "Package",
               "version": "[0.95.4, )"
             },
+            "CommunityToolkit.Mvvm": {
+              "target": "Package",
+              "version": "[8.2.2, )"
+            },
             "Google.OrTools": {
               "target": "Package",
               "version": "[9.9.3963, )"
             },
+            "LiveChartsCore.SkiaSharpView.Avalonia": {
+              "target": "Package",
+              "version": "[2.0.0-rc2, )"
+            },
             "OfficeOpenXml.Core.ExcelPackage": {
               "target": "Package",
               "version": "[1.0.0, )"
-            },
-            "ReactiveUI": {
-              "target": "Package",
-              "version": "[19.6.1, )"
             }
           },
           "imports": [

@@ -43,11 +43,6 @@ public class ResultManager
         thread.Start();
     }
     
-    public List<ResultDataPerHour> GetResults()
-    {
-        return ResultsAsync;
-    }
-    
     public List<ResultDataPerHour> GetNewResults()
     {
         List<ResultDataPerHour> newResults = new();

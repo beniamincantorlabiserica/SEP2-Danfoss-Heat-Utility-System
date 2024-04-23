@@ -23,8 +23,15 @@ public partial class DashboardViewModel : ViewModelBase
     public ObservableCollection<double> DemandOutput = new ObservableCollection<double>();
     public ObservableCollection<string> CurrentDate = new ObservableCollection<string>();
     public List<ResultDataPerHour> DemandData = new List<ResultDataPerHour>();
+    
+    public ObservableCollection<double> ElBoilerProductionUnitOuput = new ObservableCollection<double>();
+    public ObservableCollection<double> GasBoilerProductionUnitOuput = new ObservableCollection<double>();
+    public ObservableCollection<double> OilBoilerProductionUnitOuput = new ObservableCollection<double>();
+    public ObservableCollection<double> GasMotorProductionUnitOuput = new ObservableCollection<double>();
 
-    private bool liveMode = true;
+    
+
+    private bool _liveMode = true;
     
     private string _startPoint;
     public string StartPoint
@@ -68,14 +75,8 @@ public partial class DashboardViewModel : ViewModelBase
     public DashboardViewModel(ResultManager resultManager)
     {
         _resultManager = resultManager;
-          
+        LoadScenarioOne();
     }
-
-    private void GetData()
-    {
-        DemandData = _resultManager.GetResults();
-    }
-
 
     #region supply and demand commands
     
@@ -104,12 +105,12 @@ public partial class DashboardViewModel : ViewModelBase
         if (thumb.Xj > DemandData.Count - 5)
         {
             Console.WriteLine("Live mode on");
-            liveMode = true;
+            _liveMode = true;
         }
         else
         {
             Console.WriteLine("Live mode off");
-            liveMode = false;
+            _liveMode = false;
         }
         
         StartPoint = thumb.Xj.ToString();
@@ -178,10 +179,11 @@ public partial class DashboardViewModel : ViewModelBase
 
     #endregion
 
-    private void init(int scenario)
+    private void Init(int scenario)
     {
         
-        
+        LoadChart(scenario);
+
         OptimizerManager optimizerManager = new(_resultManager, new ExcelLoader());
         
         
@@ -194,7 +196,19 @@ public partial class DashboardViewModel : ViewModelBase
                     DemandData.Add(resultDataPerHours);
                     DemandOutput.Add(resultDataPerHours.Demand);
                     CurrentDate.Add(resultDataPerHours.HourStart);
-                    if (liveMode)
+                    
+                    ElBoilerProductionUnitOuput.Add(resultDataPerHours.UsedProductionUnits["ElectricBoiler"]);
+                    GasBoilerProductionUnitOuput.Add(resultDataPerHours.UsedProductionUnits["GasBoiler"]);
+                    OilBoilerProductionUnitOuput.Add(resultDataPerHours.UsedProductionUnits["OilBoiler"]);
+                    GasMotorProductionUnitOuput.Add(resultDataPerHours.UsedProductionUnits["GasMotor"]);
+                    
+                    Console.WriteLine("Added new data");
+                    Console.WriteLine("ElectricBoiler: " + resultDataPerHours.UsedProductionUnits["ElectricBoiler"]);
+                    Console.WriteLine("GasBoiler: " + resultDataPerHours.UsedProductionUnits["GasBoiler"]);
+                    Console.WriteLine("OilBoiler: " + resultDataPerHours.UsedProductionUnits["OilBoiler"]);
+                    Console.WriteLine("GasMotor: " + resultDataPerHours.UsedProductionUnits["GasMotor"]);
+                    
+                    if (_liveMode)
                     {
                         XAxes[0].MaxLimit++;
                     }
@@ -206,55 +220,174 @@ public partial class DashboardViewModel : ViewModelBase
         });
         
         x.Start();
-
+        
     }
 
 
     public void LoadScenarioOne()
     {
         Console.WriteLine("Loading scenario one");
-        init(1);
+        Init(1);
         
     }
     
     public void LoadScenarioTwo()
     {
         Console.WriteLine("Loading scenario two");
-        init(2);
+        Init(2);
     }
 
-    public void LoadChart()
+    public void LoadChart(int scenario)
     {
         #region supply and demand chart
-        
-        Series = new ISeries[]
+
+
+        if (scenario == 1)
         {
-            new LineSeries<double>
+            Series = new ISeries[]
             {
-                Values = DemandOutput,
-                GeometryStroke = null,
-                GeometryFill = null,
-                DataPadding = new(0, 1)
-            }
-        };
+                new LineSeries<double>
+                {
+                    Values = DemandOutput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1)
+                },
+                new LineSeries<double>
+                {
+                    Values = GasMotorProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1)
+                },
+                new LineSeries<double>
+                {
+                    Values = GasBoilerProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1)
+                },
+                new LineSeries<double>
+                {
+                    Values = OilBoilerProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1)
+                },
+            };
         
-        ScrollbarSeries = new ISeries[]
+            ScrollbarSeries = new ISeries[]
+            {
+                new LineSeries<double>
+                {
+                    Values = DemandOutput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1)
+                },
+                new LineSeries<double>
+                {
+                    Values = GasMotorProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1)
+                },
+                new LineSeries<double>
+                {
+                    Values = GasBoilerProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1)
+                },
+                new LineSeries<double>
+                {
+                    Values = OilBoilerProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1)
+                },
+            };
+        }
+        else if (scenario == 2)
         {
-            new LineSeries<double>
+            Series = new ISeries[]
             {
-                Values = DemandOutput,
-                GeometryStroke = null,
-                GeometryFill = null,
-                DataPadding = new(0, 1)
-            },
-            new LineSeries<ObservablePoint>
+                new LineSeries<double>
+                {
+                    Values = DemandOutput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1)
+                },
+                new LineSeries<double>
+                {
+                    Values = GasMotorProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1)
+                },
+                new LineSeries<double>
+                {
+                    Values = GasBoilerProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1)
+                },
+                new LineSeries<double>
+                {
+                    Values = OilBoilerProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1)
+                },
+                new LineSeries<double>
+                {
+                    Values = ElBoilerProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1)
+                },
+            };
+        
+            ScrollbarSeries = new ISeries[]
             {
-                Values = _values2,
-                GeometryStroke = null,
-                GeometryFill = null,
-                DataPadding = new(0, 1)
-            }
-        };
+                new LineSeries<double>
+                {
+                    Values = DemandOutput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1)
+                },
+                new LineSeries<double>
+                {
+                    Values = GasMotorProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1)
+                },
+                new LineSeries<double>
+                {
+                    Values = GasBoilerProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1)
+                },
+                new LineSeries<double>
+                {
+                    Values = OilBoilerProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1)
+                },
+                new LineSeries<double>
+                {
+                    Values = ElBoilerProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1)
+                },
+            };
+        }
 
         ScrollableAxes = new[] { new Axis() };
 
