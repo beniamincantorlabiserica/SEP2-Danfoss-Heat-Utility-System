@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using System;
+using HUS.Data;
 
 namespace HUS;
 
@@ -9,6 +10,7 @@ class Program
     // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
     // yet and stuff might break.
     [STAThread]
+
     public static void Main(string[] args) => BuildAvaloniaApp()
         .StartWithClassicDesktopLifetime(args);
 

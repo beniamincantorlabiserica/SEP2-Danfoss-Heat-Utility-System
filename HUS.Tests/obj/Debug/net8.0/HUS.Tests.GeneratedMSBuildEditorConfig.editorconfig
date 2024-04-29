@@ -13,6 +13,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = HUS.Tests
-build_property.ProjectDir = /Users/beniamin/Documents/SDU/SEM 2/SEP/HUS/HUS.Tests/
+build_property.ProjectDir = C:\_sep2\HUS.Tests\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
