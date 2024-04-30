@@ -12,6 +12,7 @@ public class PriceRequest
 {
    private readonly HttpClient _client;
     
+   
    private class Rootobject
    {
        public int total { get; set; }
