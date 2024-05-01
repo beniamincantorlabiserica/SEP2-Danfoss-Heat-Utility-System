@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -12,9 +13,10 @@ public class ExcelLoader
 {
     // Adapt to your own file path
     // TODO: Change the file path to the correct one
-    private const string FilePath = "C:\\___sep\\HUS\\Assets\\data.xlsx";
-
-    public List<DataPerHour> LiveDataPerHours = new List<DataPerHour>();
+    private const string FilePath = "C:\\_sep2\\HUS\\Assets\\data.xlsx";
+    
+    private List<DataPerHour> _liveDataPerHours;
+    private List<DataPerHour> _liveDataReceived;
 
     private Thread? _dataThread;
     
@@ -23,15 +25,20 @@ public class ExcelLoader
     /// </summary>
     public ExcelLoader()
     {
-        
+        _liveDataPerHours = new List<DataPerHour>();
+        _liveDataReceived = new List<DataPerHour>();
     }
-
+    
+    /// <summary>
+    /// In order to use the live option of the excel loader, first start the StartLiveDataGatherer() method, data is returned via the GatLiveData() method.
+    /// </summary>
     public void StartLiveDataGatherer()
     {
-        _dataThread = new Thread(() => GetDataLive());
+        _dataThread = new Thread(() => LiveDataGatherer());
         _dataThread.Start();
     }
-    private void GetDataLive()
+    
+    private void LiveDataGatherer()
     {
         using var workbook = new XLWorkbook(FilePath);
         var worksheet = workbook.Worksheet(1); // Assuming data is in the first sheet
@@ -39,16 +46,23 @@ public class ExcelLoader
         // Load Winter data from B4 to E171
         for (var row = 4; row <= 171; row++)
         {
-            LiveDataPerHours.Add(CreateDataPerHourFromRow(worksheet, row, 2, "Winter"));
+            _liveDataPerHours.Add(CreateDataPerHourFromRow(worksheet, row, 2, "Winter"));
             Thread.Sleep(1000);
         }
 
         // Load Summer data from G4 to J171
         for (var row = 4; row <= 171; row++)
         {
-            LiveDataPerHours.Add(CreateDataPerHourFromRow(worksheet, row, 7, "Summer"));
+            _liveDataPerHours.Add(CreateDataPerHourFromRow(worksheet, row, 7, "Summer"));
             Thread.Sleep(1000);
         }
+    }
+
+    public List<DataPerHour> GetLiveData()
+    {
+        List<DataPerHour> liveDataReturn = _liveDataPerHours.Except(_liveDataReceived).ToList();
+        _liveDataReceived.AddRange(_liveDataPerHours);
+        return liveDataReturn;
     }
     
     /// <summary>
