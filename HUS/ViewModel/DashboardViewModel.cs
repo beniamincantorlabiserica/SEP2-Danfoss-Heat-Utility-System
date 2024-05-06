@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading;
 using HUS.Model;
 using LiveChartsCore;
@@ -13,7 +14,11 @@ using LiveChartsCore.SkiaSharpView.Drawing;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
 using CommunityToolkit.Mvvm.Input;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DynamicData;
 using HUS.Data;
+using LiveChartsCore.SkiaSharpView.VisualElements;
+using ReactiveUI;
 
 namespace HUS.ViewModel;
 
@@ -23,13 +28,27 @@ public partial class DashboardViewModel : ViewModelBase
     public ObservableCollection<double> DemandOutput = new ObservableCollection<double>();
     public ObservableCollection<string> CurrentDate = new ObservableCollection<string>();
     public List<ResultDataPerHour> DemandData = new List<ResultDataPerHour>();
+    public ObservableCollection<double> TotalCostList = new ObservableCollection<double>();
+    public ObservableCollection<double> TotalIncomeList = new ObservableCollection<double>();
+    public ObservableCollection<double> ProductionUnitUsageList = new ObservableCollection<double>();
+    public ObservableCollection<double> ElectricityPriceList = new ObservableCollection<double>();
+
+
     
     public ObservableCollection<double> ElBoilerProductionUnitOuput = new ObservableCollection<double>();
     public ObservableCollection<double> GasBoilerProductionUnitOuput = new ObservableCollection<double>();
     public ObservableCollection<double> OilBoilerProductionUnitOuput = new ObservableCollection<double>();
     public ObservableCollection<double> GasMotorProductionUnitOuput = new ObservableCollection<double>();
 
-    
+    private int PositionStart { get; set; } = 0;
+    private int PositionEnd { get; set; } = 0;
+
+    private double _currentProfit;
+    public double CurrentProfit
+    {
+        get => _currentProfit;
+        set => this.RaiseAndSetIfChanged(ref _currentProfit, value);
+    }
 
     private bool _liveMode = true;
     
@@ -53,6 +72,46 @@ public partial class DashboardViewModel : ViewModelBase
             _startPoint = value;
         }
     }
+
+    #region cost& profit chart
+    
+    public ISeries[] CostAndProfitSeries { get; set; }
+    
+    public ISeries[] ProductionUnitUsageSeries { get; set; }
+    
+    public ISeries[] ElectricityPriceSeries { get; set; }
+
+    public Axis[] YAxesProdUnits { get; set; } =
+    {
+        new Axis { MinLimit = 0, MaxLimit = 100 }
+    };
+    
+    public Axis[] XAxesProdUnits { get; set; } =
+    {
+        new Axis {Labels = new string[] { "El B", "Gas B", "Oil B", "Gas M" }  }
+    };
+    
+    
+    public LabelVisual CostAndProfitTitle { get; set; } =
+        new LabelVisual
+        {
+            Text = "Income & Cost",
+            TextSize = 20,
+            Padding = new LiveChartsCore.Drawing.Padding(15),
+            Paint = new SolidColorPaint(SKColors.White)
+        };
+    
+    public LabelVisual ElectricityPriceTitle { get; set; } =
+        new LabelVisual
+        {
+            Text = "Electricity Price",
+            TextSize = 20,
+            Padding = new LiveChartsCore.Drawing.Padding(15),
+            Paint = new SolidColorPaint(SKColors.White)
+        };
+    
+
+    #endregion
     
     #region supply and demand chart
 
@@ -75,7 +134,58 @@ public partial class DashboardViewModel : ViewModelBase
     public DashboardViewModel(ResultManager resultManager)
     {
         _resultManager = resultManager;
+        
         LoadScenarioOne();
+        CostAndProfitSeries = new ISeries[]
+        {
+            new LineSeries<double>
+            {
+                Values = TotalIncomeList,
+                Fill = null,
+                GeometryFill = null,
+                GeometryStroke = null,
+                Name = "Income"
+            },
+            new LineSeries<double>
+            {
+                Values = TotalCostList,
+                Fill = null,
+                GeometryFill = null,
+                GeometryStroke = null,
+                Name = "Cost"
+            }
+        };
+
+        ProductionUnitUsageSeries = new ISeries[]
+        {
+            new ColumnSeries<double>
+            {
+                IsHoverable = false, 
+                Values = new double[] { 100, 100, 100, 100},
+                Stroke = null,
+                Fill = new SolidColorPaint(new SKColor(30, 30, 30, 30)),
+                IgnoresBarPosition = true
+            },
+            new ColumnSeries<double>
+            {
+                Values = ProductionUnitUsageList,
+                Stroke = null,
+                Fill = new SolidColorPaint(SKColors.CornflowerBlue),
+                IgnoresBarPosition = true,
+                Name = "Usage (%):"
+            }
+        };
+        ElectricityPriceSeries = new ISeries[]
+        {
+            new LineSeries<double>
+            {
+                Values = ElectricityPriceList,
+                Fill = new SolidColorPaint(SKColors.CornflowerBlue), 
+                Stroke = null,
+                GeometryFill = null,
+                GeometryStroke = null
+            }
+        };
     }
 
     #region supply and demand commands
@@ -99,8 +209,8 @@ public partial class DashboardViewModel : ViewModelBase
         //     Console.WriteLine("Count: " + (DemandData.Count - 1));
         //     return;
         // }
-        thumb.Xi = x.MinLimit;
-        thumb.Xj = x.MaxLimit;
+        thumb.Xi = x.MinLimit != null ? x.MinLimit : 0;
+        thumb.Xj = x.MaxLimit != null ? x.MaxLimit : DemandData.Count - 1;
 
         if (thumb.Xj > DemandData.Count - 5)
         {
@@ -113,10 +223,70 @@ public partial class DashboardViewModel : ViewModelBase
             _liveMode = false;
         }
         
+        
         StartPoint = thumb.Xj.ToString();
         EndPoint = thumb.Xi.ToString();
+
+        if (thumb.Xi != null)
+        {
+            PositionStart = (int) thumb.Xi > 0 ? (int) thumb.Xi : 0;
+            if (DemandOutput != null)
+            {
+                PositionEnd = (int) thumb.Xj < DemandData.Count - 1 ? (int) thumb.Xj : DemandData.Count - 1;
+                CurrentProfit =
+                    Math.Round(
+                        DemandData.GetRange(PositionStart, PositionEnd - PositionStart + 1)
+                            .Sum(x => (x.ElectricityPrice * x.Demand) - x.TotalCost), 2);
+                
+                var newTotalCostList = DemandData
+                    .GetRange(PositionStart, PositionEnd - PositionStart + 1)
+                    .Select(item => item.TotalCost)
+                    .ToList();
+                TotalCostList.Clear();
+                foreach (var t in newTotalCostList)
+                {
+                    TotalCostList.Add(t);
+                }
+                Console.WriteLine("list:  " + TotalCostList.Count);
+                
+                var newTotalIncomeList = DemandData
+                    .GetRange(PositionStart, PositionEnd - PositionStart + 1)
+                    .Select(item => item.ElectricityPrice * item.Demand)
+                    .ToList();
+                TotalIncomeList.Clear();
+                foreach (var t in newTotalIncomeList)
+                {
+                    TotalIncomeList.Add(t);
+                }
+                
+                var electricBoilerUsage = DemandData[PositionEnd].UsedProductionUnits["ElectricBoiler"];
+                var gasBoilerUsage = DemandData[PositionEnd].UsedProductionUnits["GasBoiler"];
+                var oilBoilerUsage = DemandData[PositionEnd].UsedProductionUnits["OilBoiler"];
+                var gasMotorUsage = DemandData[PositionEnd].UsedProductionUnits["GasMotor"];
+                ProductionUnitUsageList.Clear();
+                ProductionUnitUsageList.Add(electricBoilerUsage/8 * 100);
+                ProductionUnitUsageList.Add(gasBoilerUsage/5 * 100);
+                ProductionUnitUsageList.Add(oilBoilerUsage/4 * 100);
+                ProductionUnitUsageList.Add(gasMotorUsage/3.6 * 100);
+                
+                var newElectricityPriceList = DemandData
+                    .GetRange(PositionStart, PositionEnd - PositionStart + 1)
+                    .Select(item => item.ElectricityPrice)
+                    .ToList();
+                ElectricityPriceList.Clear();
+                foreach (var t in newElectricityPriceList)
+                {
+                    ElectricityPriceList.Add(t);
+                }
+            }
+        }
+        
+        
+       
+        
         // Console.WriteLine("WHEN chart changing ");
-        // Console.WriteLine($"Xi: {thumb.Xi}, Xj: {thumb.Xj}");
+        Console.WriteLine($"Xi: {thumb.Xi}, Xj: {thumb.Xj}");
+        Console.WriteLine($"PositionStart: {PositionStart}, PositionEnd: {PositionEnd}");
     }
 
     [RelayCommand]
@@ -163,6 +333,10 @@ public partial class DashboardViewModel : ViewModelBase
         // update the scroll bar thumb when the user is dragging the chart
         thumb.Xi = positionInData.X - currentRange / 2;
         thumb.Xj = positionInData.X + currentRange / 2;
+        
+        Console.WriteLine("\n\nSTART POINT: " + thumb.Xi);
+        Console.WriteLine("END POINT: " + thumb.Xj + "\n\n");
+
 
         // update the chart visible range
         XAxes[0].MinLimit = thumb.Xi;
@@ -189,6 +363,8 @@ public partial class DashboardViewModel : ViewModelBase
         
         Thread x = new(() =>
         {
+            _liveMode = true;
+            
             while (true)
             {
                 foreach (var resultDataPerHours in _resultManager.GetNewResults())
@@ -196,25 +372,73 @@ public partial class DashboardViewModel : ViewModelBase
                     DemandData.Add(resultDataPerHours);
                     DemandOutput.Add(resultDataPerHours.Demand);
                     CurrentDate.Add(resultDataPerHours.HourStart);
-                    
+                    PositionEnd = DemandOutput.Count - 1;
+                    Console.WriteLine("Adaugam position end: " + PositionEnd);
+
                     ElBoilerProductionUnitOuput.Add(resultDataPerHours.UsedProductionUnits["ElectricBoiler"]);
                     GasBoilerProductionUnitOuput.Add(resultDataPerHours.UsedProductionUnits["GasBoiler"]);
                     OilBoilerProductionUnitOuput.Add(resultDataPerHours.UsedProductionUnits["OilBoiler"]);
                     GasMotorProductionUnitOuput.Add(resultDataPerHours.UsedProductionUnits["GasMotor"]);
                     
-                    Console.WriteLine("Added new data");
-                    Console.WriteLine("ElectricBoiler: " + resultDataPerHours.UsedProductionUnits["ElectricBoiler"]);
-                    Console.WriteLine("GasBoiler: " + resultDataPerHours.UsedProductionUnits["GasBoiler"]);
-                    Console.WriteLine("OilBoiler: " + resultDataPerHours.UsedProductionUnits["OilBoiler"]);
-                    Console.WriteLine("GasMotor: " + resultDataPerHours.UsedProductionUnits["GasMotor"]);
+                    // Console.WriteLine("Added new data");
+                    // Console.WriteLine("ElectricBoiler: " + resultDataPerHours.UsedProductionUnits["ElectricBoiler"]);
+                    // Console.WriteLine("GasBoiler: " + resultDataPerHours.UsedProductionUnits["GasBoiler"]);
+                    // Console.WriteLine("OilBoiler: " + resultDataPerHours.UsedProductionUnits["OilBoiler"]);
+                    // Console.WriteLine("GasMotor: " + resultDataPerHours.UsedProductionUnits["GasMotor"]);
                     
                     if (_liveMode)
                     {
                         XAxes[0].MaxLimit++;
+                        Console.WriteLine("live mode ii true aici in thread");
                     }
-                } 
+                }
+
+                if (_liveMode)
+                {
+                    // setting profit for current selected area
+                    CurrentProfit =
+                        Math.Round(
+                            DemandData.GetRange(PositionStart, PositionEnd - PositionStart + 1)
+                                .Sum(x => (x.ElectricityPrice * x.Demand) - x.TotalCost), 2);
+                    
+                    // setting cost and profit graphics for current selected area
+                    var newTotalCostList = DemandData
+                        .GetRange(PositionStart, PositionEnd - PositionStart + 1)
+                        .Select(item => item.TotalCost)
+                        .ToList();
+
+                    TotalCostList.Clear();
+                    for (int i = 0; i < newTotalCostList.Count; i++)
+                    {
+                        TotalCostList.Add(newTotalCostList[i]);
+                    }
+                    Console.WriteLine("list:  " + TotalCostList.Count);
+                    
+                    // setting total income for current selected area
+                    var newTotalIncomeList = DemandData
+                        .GetRange(PositionStart, PositionEnd - PositionStart + 1)
+                        .Select(item => item.ElectricityPrice * item.Demand)
+                        .ToList();
+                    TotalIncomeList.Clear();
+                    foreach (var t in newTotalIncomeList)
+                    {
+                        TotalIncomeList.Add(t);
+                    }
+                    
+                    var newElectricityPriceList = DemandData
+                        .GetRange(PositionStart, PositionEnd - PositionStart + 1)
+                        .Select(item => item.ElectricityPrice)
+                        .ToList();
+                    ElectricityPriceList.Clear();
+                    foreach (var t in newElectricityPriceList)
+                    {
+                        ElectricityPriceList.Add(t);
+                    }
+                }
+
+                Console.WriteLine("Current profit: " + CurrentProfit);
                 // GetData();
-                Console.WriteLine("Getting data");
+                // Console.WriteLine("Getting data");
                 Thread.Sleep(1000);
             }
         });
@@ -251,28 +475,32 @@ public partial class DashboardViewModel : ViewModelBase
                     Values = DemandOutput,
                     GeometryStroke = null,
                     GeometryFill = null,
-                    DataPadding = new(0, 1)
+                    DataPadding = new(0, 1),
+                    Name = "Demand"
                 },
                 new LineSeries<double>
                 {
                     Values = GasMotorProductionUnitOuput,
                     GeometryStroke = null,
                     GeometryFill = null,
-                    DataPadding = new(0, 1)
+                    DataPadding = new(0, 1),
+                    Name = "Gas Motor"
                 },
                 new LineSeries<double>
                 {
                     Values = GasBoilerProductionUnitOuput,
                     GeometryStroke = null,
                     GeometryFill = null,
-                    DataPadding = new(0, 1)
+                    DataPadding = new(0, 1),
+                    Name = "Gas Boiler"
                 },
                 new LineSeries<double>
                 {
                     Values = OilBoilerProductionUnitOuput,
                     GeometryStroke = null,
                     GeometryFill = null,
-                    DataPadding = new(0, 1)
+                    DataPadding = new(0, 1),
+                    Name = "Oil Boiler"
                 },
             };
         

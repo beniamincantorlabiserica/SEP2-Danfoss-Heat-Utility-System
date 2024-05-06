@@ -58,12 +58,12 @@ public class Optimizer
             //ElectricBoilerOutput = ek.SolutionValue();
             TotalCost = solver.Objective().Value();
 
-            Console.WriteLine("--------------------------------------");
-            Console.WriteLine("OPTIMIZING NEW DATASET");
-            Console.Write("Gas Boiler: " + GasBoilerOutput + " Oil Boiler: " + OilBoilerOutput + " Gas Motor: " +
-                          GasMotorOutput + " Electric Boiler: " + ElectricBoilerOutput + " Total Cost: " + TotalCost);
-            Console.WriteLine("\n--------------------------------------");
-            Console.WriteLine(" \n\n\n\n\n");
+            // Console.WriteLine("--------------------------------------");
+            // Console.WriteLine("OPTIMIZING NEW DATASET");
+            // Console.Write("Gas Boiler: " + GasBoilerOutput + " Oil Boiler: " + OilBoilerOutput + " Gas Motor: " +
+                          // GasMotorOutput + " Electric Boiler: " + ElectricBoilerOutput + " Total Cost: " + TotalCost);
+            // Console.WriteLine("\n--------------------------------------");
+            // Console.WriteLine(" \n\n\n\n\n");
         }
         else
         {

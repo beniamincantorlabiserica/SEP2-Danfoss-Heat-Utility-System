@@ -26,14 +26,14 @@ public class ResultManager
     
     public void OnFinishAddingResults()
     {
-        Console.WriteLine("All results added to ResultManager.");
+        // Console.WriteLine("All results added to ResultManager.");
         ResultsAsync = new List<ResultDataPerHour>();
         Thread thread = new Thread(() =>
         {
             int i = 0;
             while (i < Results.Count - 1)
             {
-                Console.WriteLine("Getting data in result manager async..." + i);
+                // Console.WriteLine("Getting data in result manager async..." + i);
                 ResultsAsync.Add(Results[i]);
                 Thread.Sleep(163);
                 i++;

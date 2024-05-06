@@ -72,7 +72,7 @@ public class ExcelLoader
             var hourEndCell = worksheet.Cell(rowNumber, startColumn + 1);
             if (!hourEndCell.TryGetValue(out DateTime endDateTime))
             {
-                Console.WriteLine($"Warning: Cannot convert hour end in row {rowNumber} to DateTime. Using hour start as fallback.");
+                // Console.WriteLine($"Warning: Cannot convert hour end in row {rowNumber} to DateTime. Using hour start as fallback.");
                 hourEnd = hourStart; // Using hourStart as a fallback or another default value
             }
             else

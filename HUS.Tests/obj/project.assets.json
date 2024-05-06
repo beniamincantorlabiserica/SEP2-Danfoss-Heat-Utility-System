@@ -3050,6 +3050,7 @@
           "ClosedXML": "0.95.4",
           "CommunityToolkit.Mvvm": "8.2.2",
           "Google.OrTools": "9.9.3963",
+          "LiveChartsCore": "2.0.0-rc2",
           "LiveChartsCore.SkiaSharpView.Avalonia": "2.0.0-rc2",
           "OfficeOpenXml.Core.ExcelPackage": "1.0.0"
         },
