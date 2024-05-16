@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using HUS.Data;
 
 namespace HUS.Model;
 
@@ -11,6 +12,8 @@ public class ResultManager
     private List<ResultDataPerHour> ResultsAsync { get; set; }
 
     private List<ResultDataPerHour> ResultsSent = new();
+
+    private PriceRequest pr = new PriceRequest();
 
     
     public ResultManager()
@@ -35,7 +38,7 @@ public class ResultManager
             {
                 // Console.WriteLine("Getting data in result manager async..." + i);
                 ResultsAsync.Add(Results[i]);
-                Thread.Sleep(163);
+                Thread.Sleep(5000);
                 i++;
             }
         });
@@ -51,6 +54,8 @@ public class ResultManager
         {
             if (!ResultsSent.Contains(item))
             {
+                Console.WriteLine(DateTime.Parse(item.HourStart));
+                item.ElectricityPrice = pr.GetElectricityPrice(DateTime.Parse(item.HourStart));
                 newResults.Add(item);
                 ResultsSent.Add(item);
             }
