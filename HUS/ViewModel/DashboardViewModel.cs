@@ -50,6 +50,22 @@ public partial class DashboardViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _currentProfit, value);
     }
 
+    private double _currentIncome;
+
+    public double CurrentIncome
+    {
+        get => _currentIncome;
+        set => this.RaiseAndSetIfChanged(ref _currentIncome, value);
+    }
+    
+    private double _currentCost;
+
+    public double CurrentCost
+    {
+        get => _currentCost;
+        set => this.RaiseAndSetIfChanged(ref _currentCost, value);
+    }
+    
     private bool _liveMode = true;
     
     private string _startPoint;
@@ -59,6 +75,17 @@ public partial class DashboardViewModel : ViewModelBase
         set
         {
             _startPoint = value;
+            
+        }
+    }
+
+    private int _costPercent;
+    public int CostPercent
+    {
+        get => _costPercent;
+        set
+        {
+            _costPercent = value;
             
         }
     }
@@ -238,6 +265,24 @@ public partial class DashboardViewModel : ViewModelBase
                         DemandData.GetRange(PositionStart, PositionEnd - PositionStart + 1)
                             .Sum(x => (x.ElectricityPrice * x.Demand) - x.TotalCost), 2);
                 
+                CurrentIncome =
+                    Math.Round(
+                        DemandData.GetRange(PositionStart, PositionEnd - PositionStart + 1)
+                            .Sum(x => (x.ElectricityPrice * x.Demand)), 2);
+                
+                CurrentCost =
+                    Math.Round(
+                        DemandData.GetRange(PositionStart, PositionEnd - PositionStart + 1)
+                            .Sum(x => x.TotalCost), 2);
+
+                Random random = new Random();
+                CostPercent = random.Next(-30, 30);
+                _costPercent = CostPercent;
+                Console.WriteLine("-----------------------------");
+                Console.WriteLine("procent: " + CostPercent);
+                Console.WriteLine("-----------------------------");
+
+                
                 var newTotalCostList = DemandData
                     .GetRange(PositionStart, PositionEnd - PositionStart + 1)
                     .Select(item => item.TotalCost)
@@ -358,15 +403,23 @@ public partial class DashboardViewModel : ViewModelBase
         
         LoadChart(scenario);
 
-        OptimizerManager optimizerManager = new(_resultManager, new ExcelLoader());
-        
-        
+        _resultManager = new ResultManager();
+
+
+        var optimizerManager = new OptimizerManager(_resultManager, new ExcelLoader(), scenario);
+
         Thread x = new(() =>
         {
             _liveMode = true;
             
             while (true)
             {
+                if (!_resultManager.IsOptimizationCompleted())
+                {
+                    Console.WriteLine("Loading data...");
+                    Thread.Sleep(1000);
+                    continue;
+                }
                 foreach (var resultDataPerHours in _resultManager.GetNewResults())
                 {
                     DemandData.Add(resultDataPerHours);
@@ -400,6 +453,21 @@ public partial class DashboardViewModel : ViewModelBase
                         Math.Round(
                             DemandData.GetRange(PositionStart, PositionEnd - PositionStart + 1)
                                 .Sum(x => (x.ElectricityPrice * x.Demand) - x.TotalCost), 2);
+                    
+                    
+                    CurrentIncome =
+                        Math.Round(
+                            DemandData.GetRange(PositionStart, PositionEnd - PositionStart + 1)
+                                .Sum(x => (x.ElectricityPrice * x.Demand)), 2);
+                
+                    CurrentCost =
+                        Math.Round(
+                            DemandData.GetRange(PositionStart, PositionEnd - PositionStart + 1)
+                                .Sum(x => x.TotalCost), 2);
+                    
+                    Random random = new Random();
+                    CostPercent = random.Next(-30, 30);
+                    _costPercent = CostPercent;
                     
                     // setting cost and profit graphics for current selected area
                     var newTotalCostList = DemandData
@@ -502,43 +570,18 @@ public partial class DashboardViewModel : ViewModelBase
                     DataPadding = new(0, 1),
                     Name = "Oil Boiler"
                 },
+                new LineSeries<double>
+                {
+                    Values = ElBoilerProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1),
+                    Name = "Electric Boiler"
+                },
+                
             };
         
             ScrollbarSeries = new ISeries[]
-            {
-                new LineSeries<double>
-                {
-                    Values = DemandOutput,
-                    GeometryStroke = null,
-                    GeometryFill = null,
-                    DataPadding = new(0, 1)
-                },
-                new LineSeries<double>
-                {
-                    Values = GasMotorProductionUnitOuput,
-                    GeometryStroke = null,
-                    GeometryFill = null,
-                    DataPadding = new(0, 1)
-                },
-                new LineSeries<double>
-                {
-                    Values = GasBoilerProductionUnitOuput,
-                    GeometryStroke = null,
-                    GeometryFill = null,
-                    DataPadding = new(0, 1)
-                },
-                new LineSeries<double>
-                {
-                    Values = OilBoilerProductionUnitOuput,
-                    GeometryStroke = null,
-                    GeometryFill = null,
-                    DataPadding = new(0, 1)
-                },
-            };
-        }
-        else if (scenario == 2)
-        {
-            Series = new ISeries[]
             {
                 new LineSeries<double>
                 {
@@ -574,6 +617,52 @@ public partial class DashboardViewModel : ViewModelBase
                     GeometryStroke = null,
                     GeometryFill = null,
                     DataPadding = new(0, 1)
+                }
+            };
+        }
+        else if (scenario == 2)
+        {
+            Series = new ISeries[]
+            {
+                new LineSeries<double>
+                {
+                    Values = DemandOutput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1),
+                    Name = "Demand"
+                },
+                new LineSeries<double>
+                {
+                    Values = GasMotorProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1),
+                    Name = "Gas Motor"
+                },
+                new LineSeries<double>
+                {
+                    Values = GasBoilerProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1),
+                    Name = "Gas Boiler"
+                },
+                new LineSeries<double>
+                {
+                    Values = OilBoilerProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1),
+                    Name = "Oil Boiler"
+                },
+                new LineSeries<double>
+                {
+                    Values = ElBoilerProductionUnitOuput,
+                    GeometryStroke = null,
+                    GeometryFill = null,
+                    DataPadding = new(0, 1),
+                    Name = "Electric Boiler"
                 },
             };
         
