@@ -1,8 +1,4 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using HUS.Data;
-using HUS.Model;
-
-namespace HUS.Tests;
+﻿namespace HUS.Tests;
 
 public class ExcelLoaderTest
 {

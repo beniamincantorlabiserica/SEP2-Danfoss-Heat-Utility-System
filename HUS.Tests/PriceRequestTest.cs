@@ -1,8 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using System.Runtime.InteropServices.JavaScript;
-using HUS.Data;
-
-namespace HUS.Tests;
+﻿namespace HUS.Tests;
 
 public class PriceRequestTest
 {
