@@ -15,20 +15,29 @@ public class ResultManager
 
     private PriceRequest pr = new PriceRequest();
 
+    private bool IsOptimizingDone = false;
+
     
     public ResultManager()
     {
+        
         Results = new List<ResultDataPerHour>();
-       
     }
     
     public void AddResult(ResultDataPerHour resultDataPerHour)
     {
         Results.Add(resultDataPerHour);
     }
+
+    public bool IsOptimizationCompleted()
+    {
+        return IsOptimizingDone;
+    }
     
     public void OnFinishAddingResults()
     {
+        Console.WriteLine("S A TERMINAT TOT");
+        IsOptimizingDone = true;
         // Console.WriteLine("All results added to ResultManager.");
         ResultsAsync = new List<ResultDataPerHour>();
         Thread thread = new Thread(() =>
