@@ -592,13 +592,6 @@ public partial class DashboardViewModel : ViewModelBase
                 },
                 new LineSeries<double>
                 {
-                    Values = GasMotorProductionUnitOuput,
-                    GeometryStroke = null,
-                    GeometryFill = null,
-                    DataPadding = new(0, 1)
-                },
-                new LineSeries<double>
-                {
                     Values = GasBoilerProductionUnitOuput,
                     GeometryStroke = null,
                     GeometryFill = null,
