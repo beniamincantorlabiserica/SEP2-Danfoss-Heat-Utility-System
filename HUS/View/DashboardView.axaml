@@ -9,12 +9,231 @@
              HorizontalAlignment="Stretch"
              VerticalAlignment="Stretch"
              x:DataType="viewModel:DashboardViewModel"
-             Background="#F2F2F2"
+             Background="#101625"
              mc:Ignorable="d">
 
     <Design.DataContext>
         <viewModel:DashboardViewModel />
     </Design.DataContext>
-    
+
+
+
+
+    <Grid ColumnDefinitions="300, 1300">
+
+        <Grid.Styles>
+            <Style Selector="TextBlock.Title">
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Margin" Value="0 30" />
+                <Setter Property="FontSize" Value="20" />
+            </Style>
+
+            <Style Selector="Image.SubTitleIcon">
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="5 0 " />
+            </Style>
+
+            <Style Selector="TextBlock.SubTitle">
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="Foreground" Value="#FF75EF" />
+            </Style>
+
+            <Style Selector="Button.Scenario">
+                <Setter Property="Margin" Value="0 10 0 0 " />
+                <Setter Property="Foreground" Value="#ffffff" />
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+
+            <Style Selector="TextBlock.BoilerTitle">
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="Foreground" Value="#171C2E" />
+                <Setter Property="Margin" Value="5" />
+            </Style>
+
+            <Style Selector="Image.BoilerIcon">
+                <Setter Property="HorizontalAlignment" Value="Right" />
+            </Style>
+
+            <Style Selector="Grid.SystemComponents">
+                <Setter Property="Margin" Value="0 10 0 0 " />
+                <Setter Property="Width" Value="200" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+            </Style>
+
+            <Style Selector="Border.SystemComponentsStatus">
+                <Setter Property="Background" Value="#101625" />
+                <Setter Property="CornerRadius" Value="50" />
+                <Setter Property="Width" Value="60" />
+                <Setter Property="Padding" Value="10 3" />
+                <Setter Property="HorizontalAlignment" Value="Right" />
+            </Style>
+
+            <Style Selector="Button.SystemControlButton">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="CornerRadius" Value="50" />
+                <Setter Property="Width" Value="200" />
+                <Setter Property="Padding" Value=" 10" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="BorderBrush" Value="#FF75EF" />
+                <Setter Property="BorderThickness" Value="2" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+            </Style>
+
+            <Style Selector="Button.DownloadButton">
+                <Setter Property="Background" Value="#FF75EF" />
+                <Setter Property="CornerRadius" Value="50" />
+                <Setter Property="Width" Value="200" />
+                <Setter Property="Padding" Value=" 10" />
+                <Setter Property="BorderBrush" Value="#FF75EF" />
+                <Setter Property="BorderThickness" Value="2" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="0 0 0 20" />
+            </Style>
+
+
+
+
+
+
+
+
+        </Grid.Styles>
+
+
+        <Grid Width="300"
+              Height="900"
+              Background="#171C2E"
+              Column="0"
+              RowDefinitions="Auto, Auto, Auto, Auto, *, Auto">
+            <StackPanel Grid.Row="0" Orientation="Vertical">
+                <TextBlock HorizontalAlignment="Center"
+                           Classes="Title"
+                           Text="Heat Utility System" />
+            </StackPanel>
+            <StackPanel Grid.Row="1"
+                        Margin="30,20,0,0"
+                        Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Image Width="15"
+                           Height="15"
+                           Classes="SubTitleIcon"
+                           Source="avares://HUS/Assets/Images/chart-line-solid.png" />
+                    <TextBlock Classes="SubTitle" Text="SCENARIOS" />
+                </StackPanel>
+                <Button Classes="Scenario"
+                        Command="{Binding LoadScenarioOne}"
+                        Content="Scenario 1" />
+                <Button Classes="Scenario"
+                        Command="{Binding LoadScenarioTwo}"
+                        Content="Scenario 2" />
+            </StackPanel>
+            
+        </Grid>
+
+        <Grid Column="1" RowDefinitions="300, 300, 300">
+            <Grid Margin="40,40,40,20"
+                  ColumnDefinitions="* * *"
+                  Row="0">
+                <Grid Margin="0,0,20,0"
+                      Background="#171C2E"
+                      Column="0">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock HorizontalAlignment="Center" Text="Profit" />
+                        <TextBlock Margin="0,10,0,0"
+                                   FontSize="40"
+                                   Foreground="#FF75EF"
+                                   Text="{Binding CurrentProfit}" />
+                        <TextBlock Margin="0,10,0,0"
+                                   HorizontalAlignment="Center"
+                                   FontSize="25"
+                                   Foreground="#FF75EF"
+                                   Text="DKK" />
+                    </StackPanel>
+
+                </Grid>
+                <Grid Margin="0,0,20,0"
+                      Background="#171C2E"
+                      Column="1">
+                    <StackPanel Margin="0,0,20,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center">
+                        <TextBlock HorizontalAlignment="Right" Text="Income" />
+                        <TextBlock Margin="0,5,0,0"
+                                   FontSize="25"
+                                   Foreground="#FF75EF"
+                                   Text="{Binding CurrentIncome, StringFormat=' {0} DKK'}" />
+
+                        <TextBlock Margin="0,10,0,0"
+                                   HorizontalAlignment="Right"
+                                   Text="Income" />
+                        <TextBlock Margin="0,5,0,0"
+                                   FontSize="25"
+                                   Foreground="#FF75EF"
+                                   Text="{Binding CurrentCost, StringFormat=' {0} DKK'}" />
+                    </StackPanel>
+                </Grid>
+                
+                <Grid Margin="0,0,0,0"
+                      Background="#171C2E"
+                      Column="2">
+                    <Image Grid.Column="0" Source="avares://HUS/Assets/Images/sep-logo.png" />
+                </Grid>
+            </Grid>
+
+            <Grid Margin="40,0,40,20"
+                  ColumnDefinitions="2*, *"
+                  Row="1">
+                <Border CornerRadius="50">
+                    <Grid Margin="0,0,20,0"
+                          Background="#171C2E"
+                          Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="100" />
+                        </Grid.RowDefinitions>
+                        <lvc:CartesianChart Grid.Row="0"
+                                            DrawMargin="{Binding Margin}"
+                                            Series="{Binding Series}"
+                                            UpdateStartedCommand="{Binding ChartUpdatedCommand}"
+                                            XAxes="{Binding XAxes}"
+                                            ZoomMode="X" />
+
+                        <lvc:CartesianChart x:Name="ScrollBarChart"
+                                            Grid.Row="1"
+                                            DrawMargin="{Binding Margin}"
+                                            PointerMoveCommand="{Binding PointerMoveCommand}"
+                                            PointerPressedCommand="{Binding PointerDownCommand}"
+                                            PointerReleasedCommand="{Binding PointerUpCommand}"
+                                            Sections="{Binding Thumbs}"
+                                            Series="{Binding ScrollbarSeries}"
+                                            TooltipPosition="Hidden"
+                                            XAxes="{Binding InvisibleX}"
+                                            YAxes="{Binding InvisibleY}" />
+                    </Grid>
+                </Border>
+                <Grid Background="#171C2E" Column="1">
+                    <lvc:CartesianChart Series="{Binding ProductionUnitUsageSeries}"
+                                        XAxes="{Binding XAxesProdUnits}"
+                                        YAxes="{Binding YAxesProdUnits}" />
+                </Grid>
+            </Grid>
+            <Grid Margin="40,0,40,40"
+                  ColumnDefinitions="* 2*"
+                  Row="2">
+                <Grid Margin="0,0,20,0"
+                      Background="#171C2E"
+                      Column="0">
+                    <lvc:CartesianChart Title="{Binding ElectricityPriceTitle}" Series="{Binding ElectricityPriceSeries}" />
+                </Grid>
+                <Grid Margin="0,0,0,0"
+                      Background="#171C2E"
+                      Column="1">
+                    <lvc:CartesianChart Title="{Binding CostAndProfitTitle}" Series="{Binding CostAndProfitSeries}" />
+                </Grid>
+            </Grid>
+
+        </Grid>
+    </Grid>
 
 </UserControl>

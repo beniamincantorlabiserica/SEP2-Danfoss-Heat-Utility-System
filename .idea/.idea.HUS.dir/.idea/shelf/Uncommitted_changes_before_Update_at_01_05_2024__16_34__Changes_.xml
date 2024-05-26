@@ -1,0 +1,29 @@
+<changelist name="Uncommitted_changes_before_Update_at_01_05_2024,_16_34_[Changes]" date="1714574169393" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/.idea.HUS.dir/.idea/shelf/Uncommitted_changes_before_Update_at_01_05_2024,_16_34_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 01/05/2024, 16.34 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="HUS/obj/Debug/net8.0/Avalonia/Resources.Inputs.cache" />
+    <option name="AFTER_PATH" value="HUS/obj/Debug/net8.0/Avalonia/Resources.Inputs.cache" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.HUS.dir/.idea/shelf/Uncommitted_changes_before_Update_at_01_05_2024,_16_34_[Changes]/Resources.Inputs.cache" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="HUS/obj/Debug/net8.0/Avalonia/resources" />
+    <option name="AFTER_PATH" value="HUS/obj/Debug/net8.0/Avalonia/resources" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.HUS.dir/.idea/shelf/Uncommitted_changes_before_Update_at_01_05_2024,_16_34_[Changes]/resources" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="HUS.Tests/obj/Debug/net8.0/HUS.Tests.csproj.AssemblyReference.cache" />
+    <option name="AFTER_PATH" value="HUS.Tests/obj/Debug/net8.0/HUS.Tests.csproj.AssemblyReference.cache" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.HUS.dir/.idea/shelf/Uncommitted_changes_before_Update_at_01_05_2024,_16_34_[Changes]/HUS.Tests.csproj.AssemblyReference.cache" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="HUS/obj/Debug/net8.0/HUS.AssemblyInfoInputs.cache" />
+    <option name="AFTER_PATH" value="HUS/obj/Debug/net8.0/HUS.AssemblyInfoInputs.cache" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.HUS.dir/.idea/shelf/Uncommitted_changes_before_Update_at_01_05_2024,_16_34_[Changes]/HUS.AssemblyInfoInputs.cache" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="HUS/obj/Debug/net8.0/HUS.assets.cache" />
+    <option name="AFTER_PATH" value="HUS/obj/Debug/net8.0/HUS.assets.cache" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/.idea.HUS.dir/.idea/shelf/Uncommitted_changes_before_Update_at_01_05_2024,_16_34_[Changes]/HUS.assets.cache" />
+  </binary>
+</changelist>

@@ -17,13 +17,16 @@ public class Optimizer
     public double ElectricBoilerOutput { get; private set; }
     public double TotalCost { get; private set; }
 
-    public Optimizer(string hourStart, string hourEnd, double demand, double electricityPrice, string period)
+    private int _scenario;
+
+    public Optimizer(string hourStart, string hourEnd, double demand, double electricityPrice, string period, int scenario)
     {
         HourStart = hourStart;
         HourEnd = hourEnd;
         Demand = demand;
         ElectricityPrice = electricityPrice;
         Period = period;
+        _scenario = scenario;
 
         Optimize();
     }
@@ -35,18 +38,28 @@ public class Optimizer
         Variable gb = solver.MakeNumVar(0.0, 5.0, "GasBoiler");
         Variable ob = solver.MakeNumVar(0.0, 4.0, "OilBoiler");
         Variable gm = solver.MakeNumVar(0.0, 3.6, "GasMotor");
-        //Variable ek = solver.MakeNumVar(0.0, 8.0, "ElectricBoiler");
-
-        // solver.Add(gb + ob + gm + ek >= Demand);
-        solver.Add(gb + ob + gm >= Demand);
+        Variable ek = solver.MakeNumVar(0.0, 8.0, "ElectricBoiler");
 
 
+        if (_scenario == 2)
+        {
+            solver.Add(gb + ob + gm + ek >= Demand);
+        }
+        else
+        {
+            solver.Add(gb + ob + gm >= Demand);
+        }
+        
         Objective objective = solver.Objective();
         objective.SetMinimization();
         objective.SetCoefficient(gb, 500);
         objective.SetCoefficient(ob, 700);
         objective.SetCoefficient(gm, 1100);
-        //objective.SetCoefficient(ek, 50);
+        
+        if (_scenario == 2)
+        {
+            objective.SetCoefficient(ek, 50);
+        }
 
         Solver.ResultStatus resultStatus = solver.Solve();
 
@@ -55,15 +68,19 @@ public class Optimizer
             GasBoilerOutput = gb.SolutionValue();
             OilBoilerOutput = ob.SolutionValue();
             GasMotorOutput = gm.SolutionValue();
-            //ElectricBoilerOutput = ek.SolutionValue();
+
+            if (_scenario == 2)
+            {
+                ElectricBoilerOutput = ek.SolutionValue();
+            }
             TotalCost = solver.Objective().Value();
 
-            Console.WriteLine("--------------------------------------");
-            Console.WriteLine("OPTIMIZING NEW DATASET");
-            Console.Write("Gas Boiler: " + GasBoilerOutput + " Oil Boiler: " + OilBoilerOutput + " Gas Motor: " +
-                          GasMotorOutput + " Electric Boiler: " + ElectricBoilerOutput + " Total Cost: " + TotalCost);
-            Console.WriteLine("\n--------------------------------------");
-            Console.WriteLine(" \n\n\n\n\n");
+            // Console.WriteLine("--------------------------------------");
+            // Console.WriteLine("OPTIMIZING NEW DATASET");
+            // Console.Write("Gas Boiler: " + GasBoilerOutput + " Oil Boiler: " + OilBoilerOutput + " Gas Motor: " +
+                          // GasMotorOutput + " Electric Boiler: " + ElectricBoilerOutput + " Total Cost: " + TotalCost);
+            // Console.WriteLine("\n--------------------------------------");
+            // Console.WriteLine(" \n\n\n\n\n");
         }
         else
         {
